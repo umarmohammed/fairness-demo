@@ -7,6 +7,8 @@ import sys
 import json
 import os
 
+RAW = "raw/"
+
 
 def preProcessData(df, metadata):
 
@@ -85,14 +87,14 @@ def changeExtension(filename, ext):
 
 def getRawFileDict(csvFilename):
     return {
-        "source": f"raw/{csvFilename}",
-        "json": f"raw/{changeExtension(csvFilename, '.json')}",
+        "source": f"{RAW}{csvFilename}",
+        "json": f"{RAW}{changeExtension(csvFilename, '.json')}",
         "out": f"processed/{csvFilename}"
     }
 
 
 def getRawFiles():
-    return [getRawFileDict(file) for file in os.listdir("raw") if file.endswith(".csv")]
+    return [getRawFileDict(file) for file in os.listdir(RAW) if file.endswith(".csv")]
 
 
 def processRawDirectory():
