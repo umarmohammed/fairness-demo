@@ -104,7 +104,7 @@ def processRawDirectory():
 def processFile(filename, metadataFilename, outfilename):
     preProcessData(
         pd.read_csv(filename),
-        readMetadata(metadataFilename)).to_csv(outfilename)
+        readMetadata(metadataFilename)).to_csv(outfilename, index=False)
 
 
 if __name__ == "__main__":
