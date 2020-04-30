@@ -1,0 +1,49 @@
+{
+  "filename": "german_credit.csv",
+  "categoricalVariables": [
+    "account_check_status",
+    "credit_history",
+    "purpose",
+    "savings",
+    "present_emp_since",
+    "gender",
+    "personal_status",
+    "property",
+    "other_installment_plans",
+    "housing",
+    "job",
+    "telephone",
+    "other_debtors",
+    "foreign_worker"
+  ],
+  "intVariables": [
+    "credits_this_bank",
+    "present_res_since",
+    "duration_in_month",
+    "people_under_maintenance",
+    "installment_as_income_perc",
+    "age",
+    "credit_amount"
+  ],
+  "outputVariable": "default",
+  "categoricalSplitters": [
+    {
+      "sourceColumn": "personal_status_sex",
+      "targetColumns": [
+        "gender",
+        "personal_status"
+      ],
+      "delimeter": ":"
+    }
+  ],
+  "intSplitters": [
+    {
+      "sourceColumn": "age",
+      "targetColumns": [
+        "young",
+        "adult",
+        "senior"
+      ]
+    }
+  ]
+}
