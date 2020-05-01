@@ -15,8 +15,8 @@ import { FeaturesService } from '../core/features.service';
       ></fai-select-protected-feaure>
       <fai-select-protected-feaure
         [features]="features$ | async"
-        label="gmax"
-        type="gmax"
+        label="gmaj"
+        type="gmaj"
         (selectionChange)="onSelectionChange($event)"
       ></fai-select-protected-feaure>
     </div>
