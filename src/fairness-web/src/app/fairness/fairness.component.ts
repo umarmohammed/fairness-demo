@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
+import { FeaturesService } from '../core/features.service';
 
 @Component({
   selector: 'fai-fairness',
-  template: `<div>fairness</div>`,
+  template: `<div>{{ features$ | async | json }}</div>`,
 })
-export class FairnessComponent {}
+export class FairnessComponent {
+  features$ = this.featuresService.features$;
+
+  constructor(private featuresService: FeaturesService) {}
+}
