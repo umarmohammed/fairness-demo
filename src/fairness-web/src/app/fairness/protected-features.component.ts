@@ -4,7 +4,7 @@ import { FeaturesService } from '../core/features.service';
 @Component({
   selector: 'fai-protected-features',
   template: `
-    <div class="container">
+    <div class="container" [class.hidden]="featuresLoading$ | async">
       <p class="header">Protected Features</p>
 
       <fai-select-protected-feaure
@@ -20,6 +20,10 @@ import { FeaturesService } from '../core/features.service';
         (selectionChange)="onSelectionChange($event)"
       ></fai-select-protected-feaure>
     </div>
+    <mat-spinner
+      class="spinner"
+      [class.show]="featuresLoading$ | async"
+    ></mat-spinner>
   `,
   styles: [
     `
@@ -45,11 +49,15 @@ import { FeaturesService } from '../core/features.service';
       fai-select-protected-feaure {
         width: 100%;
       }
+      .hidden {
+        display: none;
+      }
     `,
   ],
 })
 export class ProtectedFeaturesComponent {
   features$ = this.featureService.features$;
+  featuresLoading$ = this.featureService.featuresLoading$;
 
   constructor(private featureService: FeaturesService) {}
 
