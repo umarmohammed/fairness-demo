@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ShellComponent } from './core/shell.component';
+import { ModelLoadedGuard } from './core/model-loaded.guard';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
         path: 'fairness',
         loadChildren: () =>
           import('./fairness/fairness.module').then((m) => m.FairnessModule),
+        canLoad: [ModelLoadedGuard],
       },
       {
         path: '',
