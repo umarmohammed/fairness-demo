@@ -90,17 +90,20 @@ def computeMetrics(modelAndData, selectedFeatures):
     ypred_class = (ypred_prob >= threshold) * 1.0
 
     metrics = []
+    fairness_metrics = []
     for pf in perf_metrics.keys():
         if pf in ["AUC", "Brier"]:
-            metrics += [[pf, perf_metrics[pf](y.values.ravel(), ypred_prob)]]
+            metrics += [{"name": pf, "value": perf_metrics[pf]
+                         (y.values.ravel(), ypred_prob)}]
         else:
-            metrics += [[pf, perf_metrics[pf](y.values.ravel(), ypred_class)]]
+            metrics += [{"name": pf, "value": perf_metrics[pf]
+                         (y.values.ravel(), ypred_class)}]
 
     for ff in fair_metrics.keys():
-        metrics += [[ff, fair_metrics[ff]
-                     (y.values.ravel(), ypred_class, gmaj, gmin)]]
+        fairness_metrics += [[ff, fair_metrics[ff]
+                              (y.values.ravel(), ypred_class, gmaj, gmin)]]
 
-    return metrics
+    return {"performance": metrics}
 
 
 @app.route("/api/features", methods=["POST"])
@@ -116,4 +119,4 @@ def getMetrics():
 
     metrics = computeMetrics(
         load(file.stream), json.loads(request.form['data']))
-    return jsonify(metrics)
+    return metrics

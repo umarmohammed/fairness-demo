@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { FeaturesService } from '../core/features.service';
+import { MetricsService } from './metrics.service';
 
 @Component({
   selector: 'fai-fairness',
   template: `
     <fai-protected-features></fai-protected-features>
-    <fai-metrics></fai-metrics>
+    <fai-metrics *ngIf="metrics$ | async"></fai-metrics>
   `,
   styles: [
     `
@@ -18,11 +18,7 @@ import { FeaturesService } from '../core/features.service';
   ],
 })
 export class FairnessComponent {
-  features$ = this.featuresService.features$;
+  metrics$ = this.metricsService.metrics$;
 
-  constructor(private featuresService: FeaturesService) {}
-
-  onSelectionChange(event: any) {
-    console.log(event);
-  }
+  constructor(private metricsService: MetricsService) {}
 }
