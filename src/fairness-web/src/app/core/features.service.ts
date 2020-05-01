@@ -17,7 +17,10 @@ export class FeaturesService {
   private url = 'http://localhost:5000/api/features';
 
   features$ = this.modelService.model$.pipe(
-    tap(() => this.featuresLoadingSubject.next(true)),
+    tap(() => {
+      this.featuresLoadingSubject.next(true);
+      this.clearSelectedFeatures();
+    }),
     switchMap((model) => this.http.post<string[]>(this.url, model)),
     tap(() => this.featuresLoadingSubject.next(false)),
     shareReplay()
@@ -48,6 +51,11 @@ export class FeaturesService {
 
   updateSelectedFeature(feature: { type: string; value: string }) {
     this.featureTypeMap[feature.type].next(feature.value);
+  }
+
+  private clearSelectedFeatures() {
+    this.gmajSubject.next(null);
+    this.gminSubject.next(null);
   }
 
   private createFeaturesToUpload([selectedFeature, formData]: [
