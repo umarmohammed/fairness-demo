@@ -7,28 +7,14 @@ import { FeaturesService } from '../core/features.service';
     <div class="container">
       <p class="header">Protected Features</p>
 
-      <mat-form-field>
-        <mat-label>gmin</mat-label>
-        <mat-select (selectionChange)="onSelectionChange($event)">
-          <mat-option
-            *ngFor="let feature of features$ | async"
-            [value]="feature"
-          >
-            {{ feature }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>gmaj</mat-label>
-        <mat-select (selectionChange)="onSelectionChange($event)">
-          <mat-option
-            *ngFor="let feature of features$ | async"
-            [value]="feature"
-          >
-            {{ feature }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <fai-select-protected-feaure
+        [features]="features$ | async"
+        label="gmin"
+      ></fai-select-protected-feaure>
+      <fai-select-protected-feaure
+        [features]="features$ | async"
+        label="gmac"
+      ></fai-select-protected-feaure>
     </div>
   `,
   styles: [
@@ -52,7 +38,7 @@ import { FeaturesService } from '../core/features.service';
       .header {
         grid-area: header;
       }
-      mat-form-field {
+      fai-select-protected-feaure {
         width: 100%;
       }
     `,
