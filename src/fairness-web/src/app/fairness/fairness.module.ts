@@ -5,6 +5,7 @@ import { FairnessComponent } from './fairness.component';
 import { FairnessRoutingModule } from './fairness-routing.module';
 import { SelectProtectedFeatureComponent } from './select-protected-feature.component';
 import { ProtectedFeaturesComponent } from './protected-features.component';
+import { MetricsComponent } from './metrics.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, FairnessRoutingModule],
@@ -12,6 +13,7 @@ import { ProtectedFeaturesComponent } from './protected-features.component';
     FairnessComponent,
     SelectProtectedFeatureComponent,
     ProtectedFeaturesComponent,
+    MetricsComponent,
   ],
 })
 export class FairnessModule {}

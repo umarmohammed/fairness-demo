@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
 
 @Component({
@@ -54,6 +54,7 @@ import { FeaturesService } from '../core/features.service';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProtectedFeaturesComponent {
   features$ = this.featureService.features$;
