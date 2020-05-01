@@ -10,10 +10,14 @@ import { FeaturesService } from '../core/features.service';
       <fai-select-protected-feaure
         [features]="features$ | async"
         label="gmin"
+        type="gmin"
+        (selectionChange)="onSelectionChange($event)"
       ></fai-select-protected-feaure>
       <fai-select-protected-feaure
         [features]="features$ | async"
-        label="gmac"
+        label="gmax"
+        type="gmax"
+        (selectionChange)="onSelectionChange($event)"
       ></fai-select-protected-feaure>
     </div>
   `,
@@ -48,4 +52,8 @@ export class ProtectedFeaturesComponent {
   features$ = this.featureService.features$;
 
   constructor(private featureService: FeaturesService) {}
+
+  onSelectionChange(event: { type: string; value: string }) {
+    this.featureService.updateSelectedFeature(event);
+  }
 }
