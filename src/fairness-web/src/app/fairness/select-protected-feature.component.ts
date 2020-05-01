@@ -1,12 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
+import { SelectedFeature } from './selected-feature';
 
 @Component({
   selector: 'fai-select-protected-feaure',
   template: `
     <mat-form-field>
       <mat-label>{{ label }}</mat-label>
-      <mat-select (selectionChange)="onSelectionChange($event)">
+      <mat-select
+        (selectionChange)="onSelectionChange($event)"
+        [value]="selectedFeatures && selectedFeatures[type]"
+      >
         <mat-option *ngFor="let feature of features" [value]="feature">
           {{ feature }}
         </mat-option>
@@ -25,6 +29,7 @@ export class SelectProtectedFeatureComponent {
   @Input() label: string;
   @Input() features: string[];
   @Input() type: string;
+  @Input() selectedFeatures: SelectedFeature;
 
   @Output() selectionChange = new EventEmitter<{
     type: string;

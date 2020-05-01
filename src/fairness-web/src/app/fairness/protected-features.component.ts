@@ -12,12 +12,14 @@ import { FeaturesService } from '../core/features.service';
         label="gmin"
         type="gmin"
         (selectionChange)="onSelectionChange($event)"
+        [selectedFeatures]="selectedFeatures$ | async"
       ></fai-select-protected-feaure>
       <fai-select-protected-feaure
         [features]="features$ | async"
         label="gmaj"
         type="gmaj"
         (selectionChange)="onSelectionChange($event)"
+        [selectedFeatures]="selectedFeatures$ | async"
       ></fai-select-protected-feaure>
     </div>
     <mat-spinner
@@ -59,6 +61,7 @@ import { FeaturesService } from '../core/features.service';
 export class ProtectedFeaturesComponent {
   features$ = this.featureService.features$;
   featuresLoading$ = this.featureService.featuresLoading$;
+  selectedFeatures$ = this.featureService.selectedFeatures$;
 
   constructor(private featureService: FeaturesService) {}
 
