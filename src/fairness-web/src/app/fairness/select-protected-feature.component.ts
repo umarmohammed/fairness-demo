@@ -21,7 +21,7 @@ import { MatSelectChange } from '@angular/material/select';
     `,
   ],
 })
-export class ProtectedFeatureComponent {
+export class SelectProtectedFeatureComponent {
   @Input() label: string;
   @Input() features: string[];
 
