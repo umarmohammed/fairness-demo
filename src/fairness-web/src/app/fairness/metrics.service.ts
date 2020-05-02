@@ -4,10 +4,11 @@ import { switchMap, shareReplay, pluck, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Metrics } from './metrics';
 import { ThresholdService } from './threshold.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
-  private url = 'http://localhost:5000/api/metrics';
+  private url = `${environment.baseUrl}api/metrics`;
 
   metrics$ = this.featuresService.featuresToUpload$.pipe(
     switchMap((model) => this.http.post<Metrics[]>(this.url, model)),

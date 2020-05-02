@@ -11,10 +11,11 @@ import {
 } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SelectedFeature } from '../fairness/selected-feature';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FeaturesService {
-  private url = 'http://localhost:5000/api/features';
+  private url = `${environment.baseUrl}api/features`;
 
   features$ = this.modelService.model$.pipe(
     tap(() => {
