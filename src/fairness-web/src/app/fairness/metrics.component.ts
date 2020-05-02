@@ -15,11 +15,22 @@ import { MetricsService } from './metrics.service';
         </div>
       </div>
     </div>
+    <div class="performance">
+      <p>Fairness</p>
+      <div class="performance-charts">
+        <div
+          *ngFor="let metric of fairnessMetrics$ | async"
+          class="chart-wrapper"
+        >
+          <fai-performance-chart [metric]="metric"></fai-performance-chart>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
     `
       :host {
-        background: #fefefe;
+        background: #fdfdfd;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -43,6 +54,7 @@ import { MetricsService } from './metrics.service';
 })
 export class MetricsComponent {
   performanceMetrics$ = this.metricsService.performanceMetrics$;
+  fairnessMetrics$ = this.metricsService.fairnessMetrics$;
 
   constructor(private metricsService: MetricsService) {}
 }

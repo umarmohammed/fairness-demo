@@ -100,10 +100,10 @@ def computeMetrics(modelAndData, selectedFeatures):
                          (y.values.ravel(), ypred_class)}]
 
     for ff in fair_metrics.keys():
-        fairness_metrics += [[ff, fair_metrics[ff]
-                              (y.values.ravel(), ypred_class, gmaj, gmin)]]
+        fairness_metrics += [{"name": ff, "value": fair_metrics[ff]
+                              (y.values.ravel(), ypred_class, gmaj, gmin)}]
 
-    return {"performance": metrics}
+    return {"performance": metrics, "fairness": fairness_metrics}
 
 
 @app.route("/api/features", methods=["POST"])

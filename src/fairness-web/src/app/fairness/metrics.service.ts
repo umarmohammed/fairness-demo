@@ -15,6 +15,8 @@ export class MetricsService {
 
   performanceMetrics$ = this.metrics$.pipe(pluck('performance'));
 
+  fairnessMetrics$ = this.metrics$.pipe(pluck('fairness'));
+
   constructor(
     private featuresService: FeaturesService,
     private http: HttpClient
