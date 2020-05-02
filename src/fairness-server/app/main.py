@@ -19,7 +19,7 @@ def CohenD(yobs, ypred, gmaj, gmin):
     POOL_STD = STD_maj * (sum(gmaj == 1)/(sum(gmin == 1) + sum(gmaj == 1))) + \
         STD_min * (sum(gmin == 1)/(sum(gmin == 1) + sum(gmaj == 1)))
 
-    return StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
+    return 0 if POOL_STD == 0 else StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
 
 
 def DispImpact(yobs, ypred, gmaj, gmin):
@@ -43,7 +43,7 @@ def TwoSDRule(yobs, ypred, gmaj, gmin):
     SR_T = ypred.mean()  # success rate total
     P_min = (gmin == 1).mean()  # minority proportion
     N = len(ypred)
-    return (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
+    return 0 if (1 - SR_T) == 0 else (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
 
 
 def EqualOppDiff(yobs, ypred, gmaj, gmin):
@@ -94,9 +94,9 @@ def computeMetrics(y, gmin, gmaj, ypred_prob):
             fairness_metrics += [{"name": ff, "value": fair_metrics[ff]
                                   (y.values.ravel(), ypred_class, gmaj, gmin)}]
 
-        return {"performance": metrics, "fairness": fairness_metrics}
+        return {"threshold": threshold, "performance": metrics, "fairness": fairness_metrics}
 
-    return computeMetricsForThreshold(0.5)
+    return list(map(computeMetricsForThreshold, [i/100 for i in list(range(0, 105, 5))]))
 
 
 @app.route("/api/features", methods=["POST"])
@@ -123,4 +123,4 @@ def getMetrics():
     stuff = getStuffNeededForMetrics(
         load(file.stream), json.loads(request.form['data']))
     metrics = computeMetrics(*stuff)
-    return metrics
+    return jsonify(metrics)

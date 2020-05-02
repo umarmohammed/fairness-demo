@@ -1,4 +1,5 @@
 export interface Metrics {
+  threshold: number;
   performance: PerformanceMetric[];
   fairness: FairnessMetric[];
 }

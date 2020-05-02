@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
-import { switchMap, shareReplay, pluck } from 'rxjs/operators';
+import { switchMap, shareReplay, pluck, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Metrics } from './metrics';
 
@@ -9,13 +9,17 @@ export class MetricsService {
   private url = 'http://localhost:5000/api/metrics';
 
   metrics$ = this.featuresService.featuresToUpload$.pipe(
-    switchMap((model) => this.http.post<Metrics>(this.url, model)),
+    switchMap((model) => this.http.post<Metrics[]>(this.url, model)),
     shareReplay()
   );
 
-  performanceMetrics$ = this.metrics$.pipe(pluck('performance'));
+  metricsForThreshold$ = this.metrics$.pipe(
+    map((metrics) => metrics.find((metric) => metric.threshold === 0.5))
+  );
 
-  fairnessMetrics$ = this.metrics$.pipe(pluck('fairness'));
+  performanceMetrics$ = this.metricsForThreshold$.pipe(pluck('performance'));
+
+  fairnessMetrics$ = this.metricsForThreshold$.pipe(pluck('fairness'));
 
   constructor(
     private featuresService: FeaturesService,
