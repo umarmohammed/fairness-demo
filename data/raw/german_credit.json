@@ -1,5 +1,4 @@
 {
-  "filename": "german_credit.csv",
   "categoricalVariables": [
     "account_check_status",
     "credit_history",
