@@ -37,9 +37,9 @@ import { MetricsService } from './metrics.service';
       }
 
       .performance {
-        flex: 1;
         display: flex;
         flex-direction: column;
+        padding: 10px;
       }
 
       .performance-charts {
@@ -47,7 +47,7 @@ import { MetricsService } from './metrics.service';
       }
 
       .chart-wrapper {
-        width: calc(100vw / 6);
+        width: calc((100vw - 10px) / 6);
       }
     `,
   ],
