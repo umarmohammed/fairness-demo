@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MetricsService } from './metrics.service';
+import { Metric } from './metrics';
 
 @Component({
   selector: 'fai-metrics',
@@ -9,7 +10,10 @@ import { MetricsService } from './metrics.service';
       <p>Performance</p>
       <div class="performance-charts">
         <fai-performance-chart
-          *ngFor="let metric of performanceMetrics$ | async"
+          *ngFor="
+            let metric of performanceMetrics$ | async;
+            trackBy: trackByFunction
+          "
           class="chart-wrapper"
           [metric]="metric"
         ></fai-performance-chart>
@@ -19,7 +23,10 @@ import { MetricsService } from './metrics.service';
       <p>Fairness</p>
       <div class="performance-charts">
         <fai-fairness-chart
-          *ngFor="let metric of fairnessMetrics$ | async"
+          *ngFor="
+            let metric of fairnessMetrics$ | async;
+            trackBy: trackByFunction
+          "
           [metric]="metric"
           class="chart-wrapper"
         ></fai-fairness-chart>
@@ -57,4 +64,8 @@ export class MetricsComponent {
   fairnessMetrics$ = this.metricsService.fairnessMetrics$;
 
   constructor(private metricsService: MetricsService) {}
+
+  trackByFunction(_index: number, item: Metric) {
+    return item.name;
+  }
 }
