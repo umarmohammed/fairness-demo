@@ -76,34 +76,27 @@ fair_metrics = {"Cohen-D": CohenD,
                 }
 
 
-def computeMetrics(modelAndData, selectedFeatures):
+def computeMetrics(y, gmin, gmaj, ypred_prob):
 
-    X = modelAndData["X"]
-    y = modelAndData["y"]
+    def computeMetricsForThreshold(threshold):
+        ypred_class = (ypred_prob >= threshold) * 1.0
+        metrics = []
+        fairness_metrics = []
+        for pf in perf_metrics.keys():
+            if pf in ["AUC", "Brier"]:
+                metrics += [{"name": pf, "value": perf_metrics[pf]
+                             (y.values.ravel(), ypred_prob)}]
+            else:
+                metrics += [{"name": pf, "value": perf_metrics[pf]
+                             (y.values.ravel(), ypred_class)}]
 
-    gmin = X[selectedFeatures["gmin"]].values
-    gmaj = X[selectedFeatures["gmaj"]].values
+        for ff in fair_metrics.keys():
+            fairness_metrics += [{"name": ff, "value": fair_metrics[ff]
+                                  (y.values.ravel(), ypred_class, gmaj, gmin)}]
 
-    model = modelAndData["model"]
-    ypred_prob = model.predict_proba(X).ravel()[1::2]
-    threshold = 0.5
-    ypred_class = (ypred_prob >= threshold) * 1.0
+        return {"performance": metrics, "fairness": fairness_metrics}
 
-    metrics = []
-    fairness_metrics = []
-    for pf in perf_metrics.keys():
-        if pf in ["AUC", "Brier"]:
-            metrics += [{"name": pf, "value": perf_metrics[pf]
-                         (y.values.ravel(), ypred_prob)}]
-        else:
-            metrics += [{"name": pf, "value": perf_metrics[pf]
-                         (y.values.ravel(), ypred_class)}]
-
-    for ff in fair_metrics.keys():
-        fairness_metrics += [{"name": ff, "value": fair_metrics[ff]
-                              (y.values.ravel(), ypred_class, gmaj, gmin)}]
-
-    return {"performance": metrics, "fairness": fairness_metrics}
+    return computeMetricsForThreshold(0.5)
 
 
 @app.route("/api/features", methods=["POST"])
@@ -113,10 +106,21 @@ def features():
     return jsonify(X.columns.tolist())
 
 
+def getStuffNeededForMetrics(modelAndData, selectedFeatures):
+    X = modelAndData["X"]
+    y = modelAndData["y"]
+    gmin = X[selectedFeatures["gmin"]].values
+    gmaj = X[selectedFeatures["gmaj"]].values
+    model = modelAndData["model"]
+    ypred_prob = model.predict_proba(X).ravel()[1::2]
+    return (y, gmin, gmaj, ypred_prob)
+
+
 @app.route("/api/metrics", methods=["POST"])
 def getMetrics():
     file = request.files['file']
 
-    metrics = computeMetrics(
+    stuff = getStuffNeededForMetrics(
         load(file.stream), json.loads(request.form['data']))
+    metrics = computeMetrics(*stuff)
     return metrics
