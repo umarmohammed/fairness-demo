@@ -7,7 +7,12 @@ import { MetricsService } from './metrics.service';
     <div class="performance">
       <p>Performance</p>
       <div class="performance-charts">
-        {{ performanceMetrics$ | async | json }}
+        <div
+          *ngFor="let metric of performanceMetrics$ | async"
+          class="chart-wrapper"
+        >
+          <fai-performance-chart [metric]="metric"></fai-performance-chart>
+        </div>
       </div>
     </div>
   `,
@@ -27,7 +32,11 @@ import { MetricsService } from './metrics.service';
       }
 
       .performance-charts {
-        flex: 1;
+        display: flex;
+      }
+
+      .chart-wrapper {
+        width: calc(100vw / 6);
       }
     `,
   ],
