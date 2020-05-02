@@ -141,7 +141,7 @@ export class ComboChartComponent extends BaseChartComponent {
 
     this.setColors();
     this.legendOptions = this.getLegendOptions();
-
+    this.dims.xOffset = 46;
     this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
   }
 
