@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { PerformanceMetric } from './metrics';
+import { FairnessMetric } from './metrics';
 
 @Component({
-  selector: 'fai-performance-chart',
+  selector: 'fai-fairness-chart',
   template: `
     <fai-chart-wrapper [metric]="metric">
       <ngx-charts-bar-vertical
         [scheme]="scheme"
         [results]="[metric]"
-        [yScaleMin]="0"
+        [yScaleMin]="-1"
         [yScaleMax]="1"
         [yAxis]="true"
         [showDataLabel]="true"
@@ -17,8 +17,8 @@ import { PerformanceMetric } from './metrics';
     </fai-chart-wrapper>
   `,
 })
-export class PerformanceChartComponent {
-  @Input() metric: PerformanceMetric;
+export class FairnessChartComponent {
+  @Input() metric: FairnessMetric;
 
   scheme = { domain: ['#1f77b4'] };
 }

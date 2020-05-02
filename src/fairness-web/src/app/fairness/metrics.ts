@@ -3,12 +3,16 @@ export interface Metrics {
   fairness: FairnessMetric[];
 }
 
-export interface PerformanceMetric {
+export interface Metric {
+  name: string;
+}
+
+export interface PerformanceMetric extends Metric {
   value: number;
   name: string;
 }
 
-export interface FairnessMetric {
+export interface FairnessMetric extends Metric {
   value: number;
   name: string;
 }

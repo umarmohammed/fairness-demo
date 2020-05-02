@@ -8,6 +8,8 @@ import { ProtectedFeaturesComponent } from './protected-features.component';
 import { MetricsComponent } from './metrics.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PerformanceChartComponent } from './performance-chart.component';
+import { ChartWrapperComponent } from './chart-wrapper.component';
+import { FairnessChartComponent } from './fairness-chart.component';
 
 @NgModule({
   imports: [
@@ -22,6 +24,8 @@ import { PerformanceChartComponent } from './performance-chart.component';
     ProtectedFeaturesComponent,
     MetricsComponent,
     PerformanceChartComponent,
+    ChartWrapperComponent,
+    FairnessChartComponent,
   ],
 })
 export class FairnessModule {}

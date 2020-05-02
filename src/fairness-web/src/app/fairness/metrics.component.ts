@@ -7,23 +7,21 @@ import { MetricsService } from './metrics.service';
     <div class="performance">
       <p>Performance</p>
       <div class="performance-charts">
-        <div
+        <fai-performance-chart
           *ngFor="let metric of performanceMetrics$ | async"
           class="chart-wrapper"
-        >
-          <fai-performance-chart [metric]="metric"></fai-performance-chart>
-        </div>
+          [metric]="metric"
+        ></fai-performance-chart>
       </div>
     </div>
     <div class="performance">
       <p>Fairness</p>
       <div class="performance-charts">
-        <div
+        <fai-fairness-chart
           *ngFor="let metric of fairnessMetrics$ | async"
+          [metric]="metric"
           class="chart-wrapper"
-        >
-          <fai-performance-chart [metric]="metric"></fai-performance-chart>
-        </div>
+        ></fai-fairness-chart>
       </div>
     </div>
   `,
