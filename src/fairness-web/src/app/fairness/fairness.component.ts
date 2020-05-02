@@ -10,8 +10,8 @@ import { MetricsService } from './metrics.service';
   styles: [
     `
       :host {
-        display: grid;
-        grid-template-rows: 120px 1fr;
+        display: flex;
+        flex-direction: column;
         height: calc(100vh - 64px);
       }
     `,

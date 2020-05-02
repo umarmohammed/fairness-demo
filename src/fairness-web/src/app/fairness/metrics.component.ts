@@ -3,15 +3,31 @@ import { MetricsService } from './metrics.service';
 
 @Component({
   selector: 'fai-metrics',
-  template: `<p>Performance</p>
-    <div>{{ performanceMetrics$ | async | json }}</div>`,
+  template: `
+    <div class="performance">
+      <p>Performance</p>
+      <div class="performance-charts">
+        {{ performanceMetrics$ | async | json }}
+      </div>
+    </div>
+  `,
   styles: [
     `
       :host {
         background: #fefefe;
-        display: grid;
-        grid-template-rows: 50px 1fr;
-        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .performance {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .performance-charts {
+        flex: 1;
       }
     `,
   ],
