@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FairnessMetric } from './metrics';
 
 @Component({
@@ -16,6 +16,7 @@ import { FairnessMetric } from './metrics';
       </ngx-charts-bar-vertical>
     </fai-chart-wrapper>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FairnessChartComponent {
   @Input() metric: FairnessMetric;

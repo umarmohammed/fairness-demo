@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MetricsService } from './metrics.service';
 
 @Component({
   selector: 'fai-metrics',
   template: `
+    <fai-threshold-slider></fai-threshold-slider>
     <div class="performance">
       <p>Performance</p>
       <div class="performance-charts">
@@ -49,6 +50,7 @@ import { MetricsService } from './metrics.service';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetricsComponent {
   performanceMetrics$ = this.metricsService.performanceMetrics$;

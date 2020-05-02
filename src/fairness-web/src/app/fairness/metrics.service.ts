@@ -3,6 +3,7 @@ import { FeaturesService } from '../core/features.service';
 import { switchMap, shareReplay, pluck, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Metrics } from './metrics';
+import { ThresholdService } from './threshold.service';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
@@ -14,7 +15,13 @@ export class MetricsService {
   );
 
   metricsForThreshold$ = this.metrics$.pipe(
-    map((metrics) => metrics.find((metric) => metric.threshold === 0.5))
+    switchMap((metrics) =>
+      this.thresholdService.threshold$.pipe(
+        map((threshold) =>
+          metrics.find((metric) => metric.threshold === threshold)
+        )
+      )
+    )
   );
 
   performanceMetrics$ = this.metricsForThreshold$.pipe(pluck('performance'));
@@ -23,6 +30,7 @@ export class MetricsService {
 
   constructor(
     private featuresService: FeaturesService,
-    private http: HttpClient
+    private http: HttpClient,
+    private thresholdService: ThresholdService
   ) {}
 }

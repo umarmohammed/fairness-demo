@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { PerformanceMetric } from './metrics';
 
 @Component({
@@ -16,6 +16,7 @@ import { PerformanceMetric } from './metrics';
       </ngx-charts-bar-vertical>
     </fai-chart-wrapper>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PerformanceChartComponent {
   @Input() metric: PerformanceMetric;

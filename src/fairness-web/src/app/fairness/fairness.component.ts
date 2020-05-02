@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MetricsService } from './metrics.service';
 
 @Component({
@@ -16,6 +16,7 @@ import { MetricsService } from './metrics.service';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FairnessComponent {
   metrics$ = this.metricsService.metrics$;

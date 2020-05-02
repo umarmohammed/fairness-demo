@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ModelService } from '../core/model.service';
 import { Router } from '@angular/router';
 
@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   constructor(private modelService: ModelService, private router: Router) {}

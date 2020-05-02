@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Metric } from './metrics';
 
 @Component({
@@ -24,6 +24,7 @@ import { Metric } from './metrics';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartWrapperComponent {
   @Input() metric: Metric;

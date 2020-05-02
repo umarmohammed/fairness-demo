@@ -10,6 +10,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PerformanceChartComponent } from './performance-chart.component';
 import { ChartWrapperComponent } from './chart-wrapper.component';
 import { FairnessChartComponent } from './fairness-chart.component';
+import { ThresholdSliderComponent } from './threshold-slider.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { FairnessChartComponent } from './fairness-chart.component';
     PerformanceChartComponent,
     ChartWrapperComponent,
     FairnessChartComponent,
+    ThresholdSliderComponent,
   ],
 })
 export class FairnessModule {}

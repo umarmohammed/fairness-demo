@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { SelectedFeature } from './selected-feature';
 
@@ -24,6 +30,7 @@ import { SelectedFeature } from './selected-feature';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectProtectedFeatureComponent {
   @Input() label: string;
