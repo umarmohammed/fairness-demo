@@ -11,7 +11,6 @@ import { ThresholdService } from './threshold.service';
       [step]="0.05"
       [value]="threshold$ | async"
       (input)="updateThreshold($event.value)"
-      [thumbLabel]="true"
       class="opacity-slider"
     ></mat-slider>
     <p>{{ threshold$ | async | number: '1.2-2' }}</p>
