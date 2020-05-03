@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
-import { switchMap, shareReplay, pluck, map } from 'rxjs/operators';
+import {
+  switchMap,
+  shareReplay,
+  pluck,
+  map,
+  publishReplay,
+  refCount,
+} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Metrics } from './metrics';
 import { ThresholdService } from './threshold.service';
@@ -12,7 +19,8 @@ export class MetricsService {
 
   metrics$ = this.featuresService.featuresToUpload$.pipe(
     switchMap((model) => this.http.post<Metrics[]>(this.url, model)),
-    shareReplay()
+    publishReplay(1),
+    refCount()
   );
 
   metricsForThreshold$ = this.metrics$.pipe(
