@@ -6,14 +6,14 @@ import { FairnessRoutingModule } from './fairness-routing.module';
 import { SelectProtectedFeatureComponent } from './select-protected-feature.component';
 import { ProtectedFeaturesComponent } from './protected-features.component';
 import { MetricsComponent } from './metrics.component';
-import { SharedModule } from '../shared/shared.module';
 import { PerformanceChartComponent } from './performance-chart.component';
 import { ChartWrapperComponent } from './chart-wrapper.component';
 import { FairnessChartComponent } from './fairness-chart.component';
 import { ThresholdSliderComponent } from './threshold-slider.component';
+import { ChartsModule } from '../charts/charts.module';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, FairnessRoutingModule, SharedModule],
+  imports: [CommonModule, MaterialModule, FairnessRoutingModule, ChartsModule],
   declarations: [
     FairnessComponent,
     SelectProtectedFeatureComponent,

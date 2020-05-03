@@ -8,4 +8,4 @@ import { ComboSeriesVerticalComponent } from './combo-series-vertical.component'
   declarations: [ComboChartComponent, ComboSeriesVerticalComponent],
   exports: [NgxChartsModule, ComboChartComponent],
 })
-export class SharedModule {}
+export class ChartsModule {}
