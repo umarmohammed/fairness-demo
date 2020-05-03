@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FeaturesService } from './features.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'fai-shell',
@@ -9,7 +11,11 @@ import { Component } from '@angular/core';
         <a mat-button routerLinkActive="active" routerLink="/options"
           >Options</a
         >
-        <a mat-button routerLinkActive="active" routerLink="/metrics"
+        <a
+          mat-button
+          routerLinkActive="active"
+          routerLink="/metrics"
+          [disabled]="!(selectedFeatures$ | async)"
           >Metrics</a
         >
       </mat-toolbar-row>
@@ -24,4 +30,8 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class ShellComponent {}
+export class ShellComponent {
+  selectedFeatures$ = this.featuresService.selectedFeatures$;
+
+  constructor(private featuresService: FeaturesService) {}
+}
