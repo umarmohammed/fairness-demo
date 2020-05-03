@@ -12,6 +12,9 @@ import { ThresholdService } from './threshold.service';
       [value]="threshold$ | async"
       (input)="updateThreshold($event.value)"
       class="opacity-slider"
+      (mousedown)="onmousedown()"
+      (window:mousemove)="onmousemove()"
+      (window:mouseup)="onmouseup()"
     ></mat-slider>
     <p>{{ threshold$ | async | number: '1.2-2' }}</p>
   `,
@@ -41,5 +44,17 @@ export class ThresholdSliderComponent {
 
   updateThreshold(value: number) {
     this.thresholdService.updateThreshold(value);
+  }
+
+  onmousedown() {
+    this.thresholdService.thresholdMousedown();
+  }
+
+  onmouseup() {
+    this.thresholdService.windowMouseup();
+  }
+
+  onmousemove() {
+    this.thresholdService.windowMousemove();
   }
 }

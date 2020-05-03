@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MetricsService } from './metrics.service';
 import { Metric } from './metrics';
+import { ThresholdService } from './threshold.service';
 
 @Component({
   selector: 'fai-metrics',
@@ -16,6 +17,7 @@ import { Metric } from './metrics';
           "
           class="chart-wrapper"
           [metric]="metric"
+          [showDataLabel]="!(thresholding$ | async)"
         ></fai-performance-chart>
       </div>
     </div>
@@ -67,8 +69,12 @@ import { Metric } from './metrics';
 export class MetricsComponent {
   performanceMetrics$ = this.metricsService.performanceMetrics$;
   fairnessMetrics$ = this.metricsService.fairnessMetrics$;
+  thresholding$ = this.thresholdService.thresholding$;
 
-  constructor(private metricsService: MetricsService) {}
+  constructor(
+    private metricsService: MetricsService,
+    private thresholdService: ThresholdService
+  ) {}
 
   trackByFunction(_index: number, item: Metric) {
     return item.name;

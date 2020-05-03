@@ -11,7 +11,7 @@ import { PerformanceMetric } from './metrics';
         [yScaleMin]="0"
         [yScaleMax]="1"
         [yAxis]="true"
-        [showDataLabel]="true"
+        [showDataLabel]="showDataLabel"
       >
       </ngx-charts-bar-vertical>
     </fai-chart-wrapper>
@@ -20,6 +20,7 @@ import { PerformanceMetric } from './metrics';
 })
 export class PerformanceChartComponent {
   @Input() metric: PerformanceMetric;
+  @Input() showDataLabel: boolean;
 
   scheme = { domain: ['#1f77b4'] };
 }
