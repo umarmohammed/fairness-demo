@@ -10,22 +10,29 @@ const routes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: 'home',
-        component: HomeComponent,
-      },
-      {
         path: 'fairness',
         loadChildren: () =>
           import('./fairness/fairness.module').then((m) => m.FairnessModule),
         canLoad: [ModelLoadedGuard],
       },
       {
+        path: 'options',
+        loadChildren: () =>
+          import('./options/options.module').then((m) => m.OptionsModule),
+        canLoad: [ModelLoadedGuard],
+      },
+      {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'fairness',
         pathMatch: 'full',
       },
     ],
   },
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({

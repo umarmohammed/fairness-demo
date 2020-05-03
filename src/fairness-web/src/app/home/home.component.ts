@@ -36,6 +36,6 @@ export class HomeComponent {
 
   fileUploaded(file: File) {
     this.modelService.loadModel(file);
-    this.router.navigate(['/fairness']);
+    this.router.navigate(['/options']);
   }
 }
