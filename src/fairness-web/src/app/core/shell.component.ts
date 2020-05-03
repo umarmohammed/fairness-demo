@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
         <a mat-button routerLinkActive="active" routerLink="/options"
           >Options</a
         >
-        <a mat-button routerLinkActive="active" routerLink="/fairness"
+        <a mat-button routerLinkActive="active" routerLink="/metrics"
           >Metrics</a
         >
       </mat-toolbar-row>

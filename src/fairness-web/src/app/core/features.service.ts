@@ -10,7 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { SelectedFeature } from '../fairness/selected-feature';
+import { SelectedFeature } from '../metrics/selected-feature';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -42,6 +42,9 @@ export class FeaturesService {
     filter(([gmin, gmaj]) => !!gmin && !!gmaj),
     map(([gmin, gmaj]): SelectedFeature => ({ gmin, gmaj }))
   );
+
+  unprivelegedGroup$ = this.gminSubject.asObservable();
+  privelegedGroup$ = this.gmajSubject.asObservable();
 
   featuresToUpload$ = this.selectedFeatures$.pipe(
     withLatestFrom(this.modelService.model$),

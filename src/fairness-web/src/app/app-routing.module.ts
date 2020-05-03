@@ -10,9 +10,9 @@ const routes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: 'fairness',
+        path: 'metrics',
         loadChildren: () =>
-          import('./fairness/fairness.module').then((m) => m.FairnessModule),
+          import('./metrics/metrics.module').then((m) => m.MetricsModule),
         canLoad: [ModelLoadedGuard],
       },
       {
@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'fairness',
+        redirectTo: 'options',
         pathMatch: 'full',
       },
     ],

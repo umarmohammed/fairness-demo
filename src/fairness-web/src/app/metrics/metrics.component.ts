@@ -5,7 +5,7 @@ import { Metric } from './metrics';
 @Component({
   selector: 'fai-metrics',
   template: `
-    <fai-threshold-slider></fai-threshold-slider>
+    <fai-metrics-title class="title"></fai-metrics-title>
     <div class="performance">
       <p>Performance</p>
       <div class="performance-charts">
@@ -19,6 +19,7 @@ import { Metric } from './metrics';
         ></fai-performance-chart>
       </div>
     </div>
+    <fai-threshold-slider></fai-threshold-slider>
     <div class="performance">
       <p>Fairness</p>
       <div class="performance-charts">
@@ -39,13 +40,13 @@ import { Metric } from './metrics';
         background: #fdfdfd;
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100vh - 64px);
       }
 
       .performance {
         display: flex;
         flex-direction: column;
-        padding: 10px;
+        padding: 0 10px;
       }
 
       .performance-charts {
@@ -54,6 +55,10 @@ import { Metric } from './metrics';
 
       .chart-wrapper {
         width: calc((100vw - 10px) / 6);
+      }
+
+      .title {
+        margin: 10px auto 0;
       }
     `,
   ],
