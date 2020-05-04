@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
-import {
-  switchMap,
-  shareReplay,
-  pluck,
-  map,
-  publishReplay,
-  refCount,
-} from 'rxjs/operators';
+import { switchMap, pluck, map, tap, share } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Metrics } from './metrics';
 import { ThresholdService } from './threshold.service';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
   private url = `${environment.baseUrl}api/metrics`;
 
+  private metricsLoadingSubject = new BehaviorSubject<boolean>(false);
+  metricsLoading$ = this.metricsLoadingSubject.asObservable();
+
   metrics$ = this.featuresService.featuresToUpload$.pipe(
     switchMap((model) => this.http.post<Metrics[]>(this.url, model)),
-    publishReplay(1),
-    refCount()
+    tap(() => this.metricsLoadingSubject.next(false)),
+    share()
   );
 
   metricsForThreshold$ = this.metrics$.pipe(
@@ -42,4 +39,8 @@ export class MetricsService {
     private http: HttpClient,
     private thresholdService: ThresholdService
   ) {}
+
+  metricsPageEntered() {
+    this.metricsLoadingSubject.next(true);
+  }
 }
