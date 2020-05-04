@@ -18,6 +18,14 @@ import { tap } from 'rxjs/operators';
           [disabled]="!(selectedFeatures$ | async)"
           >Metrics</a
         >
+        <button
+          class="m-l-20"
+          color="primary"
+          mat-flat-button
+          [disabled]="!(selectedFeatures$ | async)"
+        >
+          fix
+        </button>
       </mat-toolbar-row>
     </mat-toolbar>
     <router-outlet></router-outlet>
@@ -26,6 +34,10 @@ import { tap } from 'rxjs/operators';
     `
       a.active {
         background: hsla(0, 0%, 100%, 0.65);
+      }
+
+      .m-l-20 {
+        margin-left: 20px;
       }
     `,
   ],
