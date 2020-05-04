@@ -7,7 +7,7 @@ export class ShellService {
   showMenu$ = this.router.events.pipe(
     map(() => this.router.url),
     distinctUntilChanged(),
-    map((url) => url === '/metrics')
+    map((url) => url.includes('/metrics'))
   );
 
   constructor(private router: Router) {}
