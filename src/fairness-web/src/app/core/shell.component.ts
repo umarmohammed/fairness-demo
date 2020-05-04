@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { FeaturesService } from './features.service';
-import { tap } from 'rxjs/operators';
+import { ShellService } from './shell.service';
 
 @Component({
   selector: 'fai-shell',
   template: `
     <mat-toolbar>
       <mat-toolbar-row>
+        <button mat-icon-button *ngIf="showMenu$ | async">
+          <mat-icon>menu</mat-icon>
+        </button>
         <a mat-button routerLink="/home">Fairness Demo</a>
         <a mat-button routerLinkActive="active" routerLink="/options"
           >Options</a
@@ -44,6 +47,10 @@ import { tap } from 'rxjs/operators';
 })
 export class ShellComponent {
   selectedFeatures$ = this.featuresService.selectedFeatures$;
+  showMenu$ = this.shellService.showMenu$;
 
-  constructor(private featuresService: FeaturesService) {}
+  constructor(
+    private featuresService: FeaturesService,
+    private shellService: ShellService
+  ) {}
 }
