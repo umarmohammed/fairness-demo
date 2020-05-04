@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { FeaturesService } from './features.service';
 import { ShellService } from './shell.service';
+import { SideNavService } from './side-nav.service';
 
 @Component({
   selector: 'fai-shell',
   template: `
     <mat-toolbar>
       <mat-toolbar-row>
-        <button mat-icon-button *ngIf="showMenu$ | async">
+        <button
+          mat-icon-button
+          *ngIf="showMenu$ | async"
+          (click)="onMenuClicked()"
+        >
           <mat-icon>menu</mat-icon>
         </button>
         <a mat-button routerLink="/home">Fairness Demo</a>
@@ -51,6 +56,16 @@ export class ShellComponent {
 
   constructor(
     private featuresService: FeaturesService,
-    private shellService: ShellService
+    private shellService: ShellService,
+    private sideNavService: SideNavService
   ) {}
+
+  onMenuClicked() {
+    this.sideNavService.toggle();
+    this.triggerWindowChangeForCharts();
+  }
+
+  triggerWindowChangeForCharts() {
+    window.dispatchEvent(new Event('resize'));
+  }
 }

@@ -69,7 +69,7 @@ import { Metric } from './metrics';
       }
 
       .chart-wrapper {
-        width: calc((100vw - 10px - 200px) / 6);
+        width: calc((100% - 10px) / 6);
       }
 
       .title {
