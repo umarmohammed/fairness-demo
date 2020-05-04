@@ -6,15 +6,15 @@ import { Metric } from './metrics';
   selector: 'fai-metrics',
   template: `
     <fai-metrics-title class="title"></fai-metrics-title>
-    <div [class.hidden]="loading$ | async">
+    <div *ngIf="error$ | async as error" class="error">
+      There was an error getting metrics for these features.
+    </div>
+    <div *ngIf="metrics$ | async as metrics">
       <div class="performance">
         <p>Performance</p>
         <div class="performance-charts">
           <fai-performance-chart
-            *ngFor="
-              let metric of performanceMetrics$ | async;
-              trackBy: trackByFunction
-            "
+            *ngFor="let metric of metrics.performance; trackBy: trackByFunction"
             class="chart-wrapper"
             [metric]="metric"
           ></fai-performance-chart>
@@ -25,10 +25,7 @@ import { Metric } from './metrics';
         <p>Fairness</p>
         <div class="performance-charts">
           <fai-fairness-chart
-            *ngFor="
-              let metric of fairnessMetrics$ | async;
-              trackBy: trackByFunction
-            "
+            *ngFor="let metric of metrics.fairness; trackBy: trackByFunction"
             [metric]="metric"
             class="chart-wrapper"
           ></fai-fairness-chart>
@@ -68,20 +65,26 @@ import { Metric } from './metrics';
       .title {
         margin: 10px auto 0;
       }
+
+      .error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        padding: 0.75rem 1.25rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        margin: 50px auto;
+      }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MetricsComponent implements OnInit {
-  performanceMetrics$ = this.metricsService.performanceMetrics$;
-  fairnessMetrics$ = this.metricsService.fairnessMetrics$;
+export class MetricsComponent {
   loading$ = this.metricsService.metricsLoading$;
+  metrics$ = this.metricsService.metricsForThreshold$;
+  error$ = this.metricsService.error$;
 
   constructor(private metricsService: MetricsService) {}
-
-  ngOnInit(): void {
-    this.metricsService.metricsPageEntered();
-  }
 
   trackByFunction(_index: number, item: Metric) {
     return item.name;
