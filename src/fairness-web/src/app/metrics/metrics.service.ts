@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
 import { switchMap, map, tap, share, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Metrics } from './metrics';
+import { Metrics, fairnessMetricsForDisplay } from './metrics';
 import { ThresholdService } from './threshold.service';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -21,6 +21,12 @@ export class MetricsService {
     tap(() => this.metricsLoadingSubject.next(true)),
     switchMap((model) =>
       this.http.post<Metrics[]>(this.url, model).pipe(
+        map((metrics) =>
+          metrics.map((metric) => ({
+            ...metric,
+            fairness: fairnessMetricsForDisplay(metric.fairness),
+          }))
+        ),
         catchError(() => {
           this.errorSubject.next(true);
           return of(null as Metrics[]);

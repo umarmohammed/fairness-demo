@@ -1,5 +1,4 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { FairnessMetric } from './metrics';
 
 // Running out of time so this part is a hack
 @Component({
@@ -11,7 +10,7 @@ import { FairnessMetric } from './metrics';
         [scheme]="scheme"
         [colorSchemeLine]="lineChartScheme"
         [results]="[metric]"
-        [lineChart]="getLineChartSeries(metric.name)"
+        [lineChart]="metric.lineSeries"
         [yLeftAxisScaleFactor]="yAxisScale(metric.name, axisScales)"
         [yRightAxisScaleFactor]="yAxisScale(metric.name, axisScales)"
         [yAxis]="true"
@@ -22,7 +21,7 @@ import { FairnessMetric } from './metrics';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FairnessChartComponent {
-  @Input() metric: FairnessMetric;
+  @Input() metric: any;
 
   scheme = { domain: ['#1f77b4'] };
 
@@ -41,28 +40,4 @@ export class FairnessChartComponent {
 
   yAxisScale = (name: string, axisScales: any) => (min: number, max: number) =>
     axisScales[name] || { min: `${min}`, max: `${max}` };
-
-  getLineChartSeries(metric: string) {
-    return metric === 'DispImpact'
-      ? this.createLineChartSeries(1)
-      : this.createLineChartSeries(0);
-  }
-
-  private createLineChartSeries(value: number) {
-    return [
-      {
-        name: 'Fair',
-        series: [
-          {
-            name: 'USA',
-            value,
-          },
-          {
-            value,
-            name: 'United Kingdom',
-          },
-        ],
-      },
-    ];
-  }
 }

@@ -67,12 +67,12 @@ perf_metrics = {"Accuracy": metrics.accuracy_score,
                 "F1-Score": metrics.f1_score,
                 "Brier": metrics.brier_score_loss}
 
-fair_metrics = {"Cohen-D": CohenD,
-                "2-SD Rule": TwoSDRule,
-                "StatParity": StatParity,
-                "EqualOppDiff": EqualOppDiff,
-                "DispImpact": DispImpact,
-                "AvgOddsDiff": AvgOddsDiff
+fair_metrics = {"Cohen-D": (CohenD, [0]),
+                "2-SD Rule": (TwoSDRule, [2,1,-2]),
+                "StatParity": (StatParity,[0.1,0,-0.1]),
+                "EqualOppDiff": (EqualOppDiff, [0.1, 0, -0.1]),
+                "DispImpact": (DispImpact, [1.2,1,0.8]),
+                "AvgOddsDiff": (AvgOddsDiff, [0.1,0,-0.1])
                 }
 
 
@@ -91,8 +91,8 @@ def computeMetrics(y, gmin, gmaj, ypred_prob):
                              (y.values.ravel(), ypred_class)}]
 
         for ff in fair_metrics.keys():
-            fairness_metrics += [{"name": ff, "value": fair_metrics[ff]
-                                  (y.values.ravel(), ypred_class, gmaj, gmin)}]
+            fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
+                                  (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
 
         return {"threshold": threshold, "performance": metrics, "fairness": fairness_metrics}
 
