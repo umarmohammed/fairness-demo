@@ -80,6 +80,7 @@ export class ComboChartComponent extends BaseChartComponent {
   xAxisHeight: number = 0;
   yAxisWidth: number = 0;
   legendOptions: any;
+  hasRange: boolean; // whether the line has a min-max range around it
   scaleType = 'linear';
   xScaleLine;
   yScaleLine;
@@ -335,6 +336,7 @@ export class ComboChartComponent extends BaseChartComponent {
   }
 
   getYDomain() {
+    this.setHasRange();
     const values = this.results.map((d) => d.value);
     const min = Math.min(0, ...values);
     const max = Math.max(...values);
@@ -343,6 +345,19 @@ export class ComboChartComponent extends BaseChartComponent {
       return [Math.min(0, minMax.min), minMax.max];
     } else {
       return [min, max];
+    }
+  }
+
+  setHasRange() {
+    for (const results of this.lineChart) {
+      for (const d of results.series) {
+        if (d.min !== undefined) {
+          this.hasRange = true;
+        }
+        if (d.max !== undefined) {
+          this.hasRange = true;
+        }
+      }
     }
   }
 

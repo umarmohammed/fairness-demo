@@ -68,11 +68,11 @@ perf_metrics = {"Accuracy": metrics.accuracy_score,
                 "Brier": metrics.brier_score_loss}
 
 fair_metrics = {"Cohen-D": (CohenD, [0]),
-                "2-SD Rule": (TwoSDRule, [2,1,-2]),
-                "StatParity": (StatParity,[0.1,0,-0.1]),
+                "2-SD Rule": (TwoSDRule, [2, 1, -2]),
+                "StatParity": (StatParity, [0.1, 0, -0.1]),
                 "EqualOppDiff": (EqualOppDiff, [0.1, 0, -0.1]),
-                "DispImpact": (DispImpact, [1.2,1,0.8]),
-                "AvgOddsDiff": (AvgOddsDiff, [0.1,0,-0.1])
+                "DispImpact": (DispImpact, [1.2, 1, 0.8]),
+                "AvgOddsDiff": (AvgOddsDiff, [0.1, 0, -0.1])
                 }
 
 
