@@ -9,20 +9,24 @@ import { Metric } from './metrics';
     <div *ngIf="error$ | async as error" class="error">
       There was an error getting metrics for these features.
     </div>
-    <div *ngIf="metrics$ | async as metrics">
-      <div class="performance">
-        <p>Performance</p>
+    <div *ngIf="metrics$ | async as metrics" class="metrics">
+      <div class="chart-row performance">
+        <p class="title">Performance</p>
         <div class="performance-charts">
-          <fai-performance-chart
-            *ngFor="let metric of metrics.performance; trackBy: trackByFunction"
-            class="chart-wrapper"
-            [metric]="metric"
-          ></fai-performance-chart>
+          <ngx-charts-bar-vertical
+            [results]="metrics.performance"
+            [yScaleMin]="0"
+            [yScaleMax]="1"
+            [yAxis]="true"
+            [showDataLabel]="true"
+            [xAxis]="true"
+          >
+          </ngx-charts-bar-vertical>
         </div>
       </div>
       <fai-threshold-slider></fai-threshold-slider>
-      <div class="performance">
-        <p>Fairness</p>
+      <div class="chart-row fairness">
+        <p class="title">Fairness</p>
         <div class="performance-charts">
           <fai-fairness-chart
             *ngFor="let metric of metrics.fairness; trackBy: trackByFunction"
@@ -41,6 +45,10 @@ import { Metric } from './metrics';
   `,
   styles: [
     `
+      .metrics {
+        height: 100%;
+      }
+
       :host {
         background: #fdfdfd;
         display: flex;
@@ -49,6 +57,11 @@ import { Metric } from './metrics';
       }
 
       .performance {
+        height: 400px;
+        width: 50%;
+      }
+
+      .chart-row {
         display: flex;
         flex-direction: column;
         padding: 0 10px;
@@ -56,6 +69,7 @@ import { Metric } from './metrics';
 
       .performance-charts {
         display: flex;
+        height: 100%;
       }
 
       .chart-wrapper {
@@ -74,6 +88,15 @@ import { Metric } from './metrics';
         border: 1px solid transparent;
         border-radius: 0.25rem;
         margin: 50px auto;
+      }
+
+      .chart-row .title {
+        margin: auto;
+        font-weight: 500;
+      }
+
+      .chart-row.fairness .title {
+        margin: 0 auto 20px;
       }
     `,
   ],
