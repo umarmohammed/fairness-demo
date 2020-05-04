@@ -96,7 +96,7 @@ def computeMetrics(y, gmin, gmaj, ypred_prob):
 
         return {"threshold": threshold, "performance": metrics, "fairness": fairness_metrics}
 
-    return list(map(computeMetricsForThreshold, [i/100 for i in list(range(0, 105, 5))]))
+    return list(map(computeMetricsForThreshold, [i/100 for i in list(range(0, 102, 2))]))
 
 
 @app.route("/api/features", methods=["POST"])

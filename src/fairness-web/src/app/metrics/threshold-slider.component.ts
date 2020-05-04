@@ -8,7 +8,7 @@ import { ThresholdService } from './threshold.service';
     <mat-slider
       [max]="1"
       [min]="0"
-      [step]="0.05"
+      [step]="0.02"
       [value]="threshold$ | async"
       (input)="updateThreshold($event.value)"
       class="opacity-slider"

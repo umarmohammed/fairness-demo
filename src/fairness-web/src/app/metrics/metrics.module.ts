@@ -4,7 +4,6 @@ import { MaterialModule } from '../material/material.module';
 import { SelectProtectedFeatureComponent } from './select-protected-feature.component';
 import { ProtectedFeaturesComponent } from './protected-features.component';
 import { MetricsComponent } from './metrics.component';
-import { PerformanceChartComponent } from './performance-chart.component';
 import { ChartWrapperComponent } from './chart-wrapper.component';
 import { FairnessChartComponent } from './fairness-chart.component';
 import { ThresholdSliderComponent } from './threshold-slider.component';
@@ -20,7 +19,6 @@ import { DataMetricsComponent } from './data-metrics.component';
     SelectProtectedFeatureComponent,
     ProtectedFeaturesComponent,
     MetricsComponent,
-    PerformanceChartComponent,
     ChartWrapperComponent,
     FairnessChartComponent,
     ThresholdSliderComponent,
