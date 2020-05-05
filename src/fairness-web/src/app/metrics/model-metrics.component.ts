@@ -13,7 +13,7 @@ import { Metric } from './metrics';
       <div class="chart-row performance">
         <p class="title">Performance</p>
         <div class="performance-charts">
-          <ngx-charts-bar-vertical
+          <ngx-charts-custom-bar-vertical
             [results]="metrics.performance"
             [yScaleMin]="0"
             [yScaleMax]="1"
@@ -21,7 +21,7 @@ import { Metric } from './metrics';
             [showDataLabel]="true"
             [xAxis]="true"
           >
-          </ngx-charts-bar-vertical>
+          </ngx-charts-custom-bar-vertical>
         </div>
       </div>
       <fai-threshold-slider></fai-threshold-slider>
