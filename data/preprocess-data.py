@@ -70,47 +70,40 @@ def preProcessData(df, metadata):
                       df_cat, df_bracket, df[metadata["outputVariable"]]], axis=1)
 
 
-def getOutfilename(argv):
-    return argv[3] if len(argv) >= 4 else "out.csv"
-
-
-def readMetadata(metadataFilename):
-    json_file = open(metadataFilename, "r")
-    metadata = json.load(json_file)
-    json_file.close()
-    return metadata
-
-
-def changeExtension(filename, ext):
-    return os.path.splitext(filename)[0]+ext
-
-
-def getRawFileDict(csvFilename):
-    return {
-        "source": f"{RAW}{csvFilename}",
-        "json": f"{RAW}{changeExtension(csvFilename, '.json')}",
-        "out": f"processed/{csvFilename}"
-    }
-
-
-def getRawFiles():
-    return [getRawFileDict(file) for file in os.listdir(RAW) if file.endswith(".csv")]
-
-
 def processRawDirectory():
+    def changeExtension(filename, ext):
+        return os.path.splitext(filename)[0]+ext
+
+    def getRawFileDict(csvFilename):
+        return {
+            "source": f"{RAW}{csvFilename}",
+            "json": f"{RAW}{changeExtension(csvFilename, '.json')}",
+            "out": f"processed/{csvFilename}"
+        }
+
+    def getRawFiles():
+        return [getRawFileDict(file) for file in os.listdir(RAW) if file.endswith(".csv")]
+
     for file in getRawFiles():
         processFile(file["source"], file["json"], file["out"])
         print(file["out"])
 
 
 def processFile(filename, metadataFilename, outfilename):
+    def readMetadata():
+        json_file = open(metadataFilename, "r")
+        metadata = json.load(json_file)
+        json_file.close()
+        return metadata
+
     preProcessData(
         pd.read_csv(filename),
-        readMetadata(metadataFilename)).to_csv(outfilename, index=False)
+        readMetadata()).to_csv(outfilename, index=False)
 
 
 if __name__ == "__main__":
+    outfilename = sys.argv[3] if len(sys.argv) >= 4 else "out.csv"
     if len(sys.argv) > 1:
-        processFile(sys.argv[1], sys.argv[2], getOutfilename(sys.argv))
+        processFile(sys.argv[1], sys.argv[2], outfilename)
     else:
         processRawDirectory()
