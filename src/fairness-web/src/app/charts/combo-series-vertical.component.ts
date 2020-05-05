@@ -127,7 +127,7 @@ export class ComboSeriesVerticalComponent implements OnChanges {
       let value = d.value;
       const label = d.name;
       const formattedLabel = formatLabel(label);
-      const roundEdges = this.type === 'standard';
+      const roundEdges = false;
 
       const bar: any = {
         value,
