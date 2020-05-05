@@ -10,7 +10,8 @@ import { SideNavService } from './side-nav.service';
       <mat-toolbar-row>
         <button
           mat-icon-button
-          *ngIf="showMenu$ | async"
+          [class.show]="showMenu$ | async"
+          class="nav-menu"
           (click)="onMenuClicked()"
         >
           <mat-icon>menu</mat-icon>
@@ -33,6 +34,7 @@ import { SideNavService } from './side-nav.service';
           [disabled]="!(selectedFeatures$ | async)"
         >
           fix
+          <mat-icon>filter_center_focus</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -41,11 +43,23 @@ import { SideNavService } from './side-nav.service';
   styles: [
     `
       a.active {
-        background: hsla(0, 0%, 100%, 0.65);
+        color: #3f51b5;
+      }
+
+      ::ng-deep a.active span.mat-button-wrapper {
+        border-bottom: 2px solid #3f51b5;
       }
 
       .m-l-20 {
         margin-left: 20px;
+      }
+
+      .nav-menu {
+        visibility: hidden;
+      }
+
+      .nav-menu.show {
+        visibility: visible;
       }
     `,
   ],
