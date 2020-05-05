@@ -28,13 +28,13 @@ import { SideNavService } from './side-nav.service';
           >Metrics</a
         >
         <button
-          class="m-l-20"
+          class="m-l-50"
           color="primary"
           mat-flat-button
           [disabled]="!(selectedFeatures$ | async)"
         >
           fix
-          <mat-icon>filter_center_focus</mat-icon>
+          <mat-icon class="fix-icon">filter_center_focus</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -50,8 +50,8 @@ import { SideNavService } from './side-nav.service';
         border-bottom: 2px solid #3f51b5;
       }
 
-      .m-l-20 {
-        margin-left: 20px;
+      .m-l-50 {
+        margin-left: 50px;
       }
 
       .nav-menu {
@@ -60,6 +60,10 @@ import { SideNavService } from './side-nav.service';
 
       .nav-menu.show {
         visibility: visible;
+      }
+
+      .fix-icon {
+        font-size: 22px;
       }
     `,
   ],
