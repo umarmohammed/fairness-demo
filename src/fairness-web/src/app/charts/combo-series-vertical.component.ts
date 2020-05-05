@@ -240,7 +240,7 @@ export class ComboSeriesVerticalComponent implements OnChanges {
         const section: any = {};
         section.series = this.seriesName ? this.seriesName : d.name;
         section.total = d.value;
-        section.x = this.xScale.bandwidth() / 20; // Just a hack, esteed it
+        section.x = this.xScale(d.name);
         section.y = this.yScale(0);
         section.height = this.yScale(section.total) - this.yScale(0);
         section.width = this.xScale.bandwidth();
