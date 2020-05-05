@@ -11,11 +11,12 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
         [colorSchemeLine]="lineChartScheme"
         [results]="[metric]"
         [lineChart]="metric.lineSeries"
-        [yLeftAxisScaleFactor]="yAxisScale(metric.name, axisScales)"
-        [yRightAxisScaleFactor]="yAxisScale(metric.name, axisScales)"
+        [yLeftAxisScaleFactor]="yAxisScale(metric.name)"
+        [yRightAxisScaleFactor]="yAxisScale(metric.name)"
         [yAxis]="true"
         [rangeFillOpacity]="0.1"
         [showDataLabel]="true"
+        [ticks]="ticks(metric.name)"
       >
       </combo-chart-component>
     </fai-chart-wrapper>
@@ -31,15 +32,23 @@ export class FairnessChartComponent {
     domain: ['#f00'],
   };
 
-  axisScales = {
-    'Cohen-D': { min: '-1', max: '1' },
-    '2-SD Rule': { min: '-3', max: '3' },
-    StatParity: { min: '-1', max: '1' },
-    EqualOppDiff: { min: '-1', max: '1' },
-    DispImpact: { min: '-2.5', max: '2.5' },
-    AvgOddsDiff: { min: '-1', max: '1' },
-  };
+  ticks(name: string) {
+    return name === '2-SD Rule' || name === 'DispImpact'
+      ? [-3, -2, -1, 0, 1, 2, 3]
+      : [-1, -0.5, 0, 0.5, 1];
+  }
 
-  yAxisScale = (name: string, axisScales: any) => (min: number, max: number) =>
-    axisScales[name] || { min: `${min}`, max: `${max}` };
+  yAxisScale(name: string) {
+    const axisScales = {
+      'Cohen-D': { min: '-1', max: '1' },
+      '2-SD Rule': { min: '-3', max: '3' },
+      StatParity: { min: '-1', max: '1' },
+      EqualOppDiff: { min: '-1', max: '1' },
+      DispImpact: { min: '-3', max: '3' },
+      AvgOddsDiff: { min: '-1', max: '1' },
+    };
+
+    return (min: number, max: number) =>
+      axisScales[name] || { min: `${min}`, max: `${max}` };
+  }
 }

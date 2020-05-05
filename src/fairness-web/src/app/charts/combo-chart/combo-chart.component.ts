@@ -58,6 +58,7 @@ export class ComboChartComponent extends BaseChartComponent {
   @Input() animations: boolean = true;
   @Input() showDataLabel: boolean = false;
   @Input() noBarWhenZero: boolean = true;
+  @Input() ticks: any;
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
