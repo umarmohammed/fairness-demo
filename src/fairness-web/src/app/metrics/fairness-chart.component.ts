@@ -25,7 +25,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 export class FairnessChartComponent {
   @Input() metric: any;
 
-  scheme = { domain: ['#1f77b4'] };
+  scheme = { domain: ['#59a1cf'] };
 
   lineChartScheme = {
     domain: ['#f00'],
