@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { SelectProtectedFeatureComponent } from './select-protected-feature.component';
-import { ProtectedFeaturesComponent } from './protected-features.component';
 import { MetricsComponent } from './metrics.component';
 import { ChartWrapperComponent } from './chart-wrapper.component';
 import { FairnessChartComponent } from './fairness-chart.component';
@@ -17,7 +16,6 @@ import { DataMetricsComponent } from './data-metrics.component';
   imports: [CommonModule, MaterialModule, MetricsRoutingModule, ChartsModule],
   declarations: [
     SelectProtectedFeatureComponent,
-    ProtectedFeaturesComponent,
     MetricsComponent,
     ChartWrapperComponent,
     FairnessChartComponent,
