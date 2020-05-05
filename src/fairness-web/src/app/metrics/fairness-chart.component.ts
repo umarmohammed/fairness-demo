@@ -29,7 +29,7 @@ export class FairnessChartComponent {
   scheme = { domain: ['#59a1cf'] };
 
   lineChartScheme = {
-    domain: ['#0f0'],
+    domain: ['#020202'],
   };
 
   ticks(name: string) {
