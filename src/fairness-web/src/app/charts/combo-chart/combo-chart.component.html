@@ -31,18 +31,7 @@
       [tickFormatting]="yAxisTickFormatting"
       (dimensionsChanged)="updateYAxisWidth($event)"
     ></svg:g>
-    <svg:g
-      ngx-charts-y-axis
-      *ngIf="yAxis"
-      [yScale]="yScaleLine"
-      [dims]="dims"
-      [yOrient]="yOrientRight"
-      [showGridLines]="showGridLines"
-      [showLabel]="showRightYAxisLabel"
-      [labelText]="yAxisLabelRight"
-      [tickFormatting]="yRightAxisTickFormatting"
-      (dimensionsChanged)="updateYAxisWidth($event)"
-    ></svg:g>
+
     <svg:g
       ngx-combo-charts-series-vertical
       [xScale]="xScale"

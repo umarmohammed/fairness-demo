@@ -412,7 +412,7 @@ export class ComboChartComponent extends BaseChartComponent {
   }
 
   updateYAxisWidth({ width }): void {
-    this.yAxisWidth = width + 20;
+    this.yAxisWidth = width;
     this.update();
   }
 
