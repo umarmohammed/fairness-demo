@@ -41,7 +41,7 @@ import { formatLabel } from '@swimlane/ngx-charts';
     ></svg:g>
     <svg:g *ngIf="showDataLabel">
       <svg:g
-        ngx-charts-bar-label
+        ngx-combo-charts-bar-label
         *ngFor="
           let b of barsForDataLabels;
           let i = index;
@@ -238,7 +238,7 @@ export class ComboSeriesVerticalComponent implements OnChanges {
     } else {
       this.barsForDataLabels = this.series.map((d) => {
         const section: any = {};
-        section.series = this.seriesName ? this.seriesName : d.label;
+        section.series = this.seriesName ? this.seriesName : d.name;
         section.total = d.value;
         section.x = this.xScale.bandwidth() / 20; // Just a hack, esteed it
         section.y = this.yScale(0);
@@ -271,6 +271,6 @@ export class ComboSeriesVerticalComponent implements OnChanges {
   }
 
   trackDataLabelBy(index, barLabel) {
-    return index + '#' + barLabel.series + '#' + barLabel.total;
+    return index + '#' + barLabel.series;
   }
 }
