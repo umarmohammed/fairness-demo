@@ -4,10 +4,10 @@ import { Metric } from './metrics';
 @Component({
   selector: 'fai-chart-wrapper',
   template: `
-    <p class="metric-name">{{ metric.name }}</p>
     <div class="chart-container">
       <ng-content></ng-content>
     </div>
+    <p class="metric-name">{{ metric.name }}</p>
   `,
   styles: [
     `

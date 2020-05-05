@@ -15,6 +15,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
         [yRightAxisScaleFactor]="yAxisScale(metric.name, axisScales)"
         [yAxis]="true"
         [rangeFillOpacity]="0.1"
+        [showDataLabel]="true"
       >
       </combo-chart-component>
     </fai-chart-wrapper>

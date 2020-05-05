@@ -39,6 +39,25 @@ import { formatLabel } from '@swimlane/ngx-charts';
       [tooltipType]="'tooltip'"
       [tooltipTitle]="bar.tooltipText"
     ></svg:g>
+    <svg:g *ngIf="showDataLabel">
+      <svg:g
+        ngx-charts-bar-label
+        *ngFor="
+          let b of barsForDataLabels;
+          let i = index;
+          trackBy: trackDataLabelBy
+        "
+        [barX]="b.x"
+        [barY]="b.y"
+        [barWidth]="b.width"
+        [barHeight]="b.height"
+        [value]="b.total"
+        [orientation]="'vertical'"
+        (dimensionsChanged)="
+          dataLabelHeightChanged.emit({ size: $event, index: i })
+        "
+      />
+    </svg:g>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
@@ -66,16 +85,26 @@ export class ComboSeriesVerticalComponent implements OnChanges {
   @Input() activeEntries: any[];
   @Input() seriesName: string;
   @Input() animations: boolean = true;
+  @Input() showDataLabel: boolean = false;
   @Input() noBarWhenZero: boolean = true;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();
   @Output() deactivate = new EventEmitter();
   @Output() bandwidth = new EventEmitter();
+  @Output() dataLabelHeightChanged = new EventEmitter();
 
   bars: any;
   x: any;
   y: any;
+  barsForDataLabels: Array<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    total: number;
+    series: string;
+  }> = [];
 
   ngOnChanges(changes): void {
     this.update();
@@ -181,7 +210,45 @@ export class ComboSeriesVerticalComponent implements OnChanges {
 
       return bar;
     });
+
+    this.updateDataLabels();
   }
+
+  updateDataLabels() {
+    if (this.type === 'stacked') {
+      this.barsForDataLabels = [];
+      const section: any = {};
+      section.series = this.seriesName;
+      const totalPositive = this.series
+        .map((d) => d.value)
+        .reduce((sum, d) => (d > 0 ? sum + d : sum), 0);
+      const totalNegative = this.series
+        .map((d) => d.value)
+        .reduce((sum, d) => (d < 0 ? sum + d : sum), 0);
+      section.total = totalPositive + totalNegative;
+      section.x = 0;
+      section.y = 0;
+      if (section.total > 0) {
+        section.height = this.yScale(totalPositive);
+      } else {
+        section.height = this.yScale(totalNegative);
+      }
+      section.width = this.xScale.bandwidth();
+      this.barsForDataLabels.push(section);
+    } else {
+      this.barsForDataLabels = this.series.map((d) => {
+        const section: any = {};
+        section.series = this.seriesName ? this.seriesName : d.label;
+        section.total = d.value;
+        section.x = this.xScale.bandwidth() / 20; // Just a hack, esteed it
+        section.y = this.yScale(0);
+        section.height = this.yScale(section.total) - this.yScale(0);
+        section.width = this.xScale.bandwidth();
+        return section;
+      });
+    }
+  }
+
   getSeriesTooltips(seriesLine, index) {
     return seriesLine.map((d) => {
       return d.series[index];
@@ -201,5 +268,9 @@ export class ComboSeriesVerticalComponent implements OnChanges {
 
   trackBy(index, bar): string {
     return bar.label;
+  }
+
+  trackDataLabelBy(index, barLabel) {
+    return index + '#' + barLabel.series + '#' + barLabel.total;
   }
 }
