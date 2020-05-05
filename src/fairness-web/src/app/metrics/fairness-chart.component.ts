@@ -7,7 +7,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     <fai-chart-wrapper [metric]="metric">
       <combo-chart-component
         class="chart-container"
-        [scheme]="scheme"
+        [scheme]="scheme(metric)"
         [colorSchemeLine]="lineChartScheme"
         [results]="[metric]"
         [lineChart]="metric.lineSeries"
@@ -26,7 +26,20 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 export class FairnessChartComponent {
   @Input() metric: any;
 
-  scheme = { domain: ['#59a1cf'] };
+  scheme(metric: any) {
+    function metricIsFair() {
+      return metric.thresholds.length === 1
+        ? metric.value === metric.thresholds[0]
+        : metric.value <= metric.thresholds[0] &&
+            metric.value >= metric.thresholds[2];
+    }
+
+    function getColor() {
+      return metricIsFair() ? '#5ab769' : '#f4523b';
+    }
+
+    return { domain: [getColor()] };
+  }
 
   lineChartScheme = {
     domain: ['#020202'],
