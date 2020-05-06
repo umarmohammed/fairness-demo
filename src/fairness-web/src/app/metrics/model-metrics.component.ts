@@ -10,22 +10,39 @@ import { Metric } from './metrics';
       There was an error getting metrics for these features.
     </div>
     <div *ngIf="metrics$ | async as metrics" class="metrics">
-      <div class="chart-row performance">
-        <p class="title">Performance</p>
-        <div class="performance-charts">
-          <ngx-charts-custom-bar-vertical
-            [results]="metrics.performance"
-            [yScaleMin]="0"
-            [yScaleMax]="1"
-            [yAxis]="true"
-            [showDataLabel]="true"
-            [xAxis]="true"
-          >
-          </ngx-charts-custom-bar-vertical>
+      <div class="chart-row">
+        <div class="chart performance">
+          <p class="title">Performance</p>
+          <div class="performance-charts">
+            <ngx-charts-custom-bar-vertical
+              [results]="metrics.performance"
+              [yScaleMin]="0"
+              [yScaleMax]="1"
+              [yAxis]="true"
+              [showDataLabel]="true"
+              [xAxis]="true"
+            >
+            </ngx-charts-custom-bar-vertical>
+          </div>
+          <fai-threshold-slider></fai-threshold-slider>
+        </div>
+        <div class="chart performance">
+          <p class="title">Scatter</p>
+          <div class="performance-charts">
+            <ngx-charts-custom-bar-vertical
+              [results]="metrics.performance"
+              [yScaleMin]="0"
+              [yScaleMax]="1"
+              [yAxis]="true"
+              [showDataLabel]="true"
+              [xAxis]="true"
+            >
+            </ngx-charts-custom-bar-vertical>
+          </div>
         </div>
       </div>
-      <fai-threshold-slider></fai-threshold-slider>
-      <div class="chart-row fairness">
+
+      <div class="chart fairness">
         <p class="title">Fairness</p>
         <div class="performance-charts">
           <fai-fairness-chart
@@ -52,20 +69,29 @@ import { Metric } from './metrics';
         height: 100%;
       }
 
+      .metrics {
+        flex: 1;
+      }
+
       .performance {
-        height: 400px;
-        width: 50%;
+        width: calc(50% - 5px);
       }
 
       .chart-row {
         display: flex;
+        height: 50%;
+        width: 100%;
+      }
+
+      .chart {
+        display: flex;
         flex-direction: column;
-        padding: 0 10px;
       }
 
       .performance-charts {
         display: flex;
         height: 100%;
+        width: 100%;
       }
 
       .chart-wrapper {
@@ -86,13 +112,21 @@ import { Metric } from './metrics';
         margin: 50px auto;
       }
 
-      .chart-row .title {
+      .chart .title {
         margin: auto;
         font-weight: 500;
       }
 
-      .chart-row.fairness .title {
+      .chart.fairness .title {
         margin: 0 auto 20px;
+      }
+
+      .chart.fairness {
+        height: 50%;
+      }
+
+      fai-threshold-slider {
+        margin-left: 5px;
       }
     `,
   ],

@@ -14,9 +14,10 @@ import { Metric } from './metrics';
       :host {
         display: flex;
         flex-direction: column;
+        height: 100%;
       }
       .metric-name {
-        margin: auto;
+        margin: 5px auto;
       }
       .chart-container {
         width: 100%;
