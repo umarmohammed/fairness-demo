@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Metrics, fairnessMetricsForDisplay } from './metrics';
 import { ThresholdService } from './threshold.service';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject, combineLatest } from 'rxjs';
+import { ScatterService } from './scatter.service';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
@@ -48,9 +49,37 @@ export class MetricsService {
     )
   );
 
+  performanceMetrics$ = this.metricsForThreshold$.pipe(
+    map((metrics) => metrics.performance)
+  );
+  fairnessMetrics$ = this.metricsForThreshold$.pipe(
+    map((metrics) => metrics.fairness)
+  );
+
+  scatterMetrics$ = this.metrics$.pipe(
+    switchMap((metrics) =>
+      combineLatest([
+        this.scatterService.scatterX$,
+        this.scatterService.scatterY$,
+      ]).pipe(
+        map(([x, y]) => ({
+          xs: metrics && metrics[0].fairness,
+          ys: metrics && metrics[0].performance,
+          x: x || (metrics && metrics[0].fairness[0].name),
+          y: y || (metrics && metrics[0].performance[0].name),
+        }))
+      )
+    )
+  );
+
   constructor(
     private featuresService: FeaturesService,
     private http: HttpClient,
-    private thresholdService: ThresholdService
+    private thresholdService: ThresholdService,
+    private scatterService: ScatterService
   ) {}
+
+  metricsPageEntered() {
+    this.metricsLoadingSubject.next(true);
+  }
 }

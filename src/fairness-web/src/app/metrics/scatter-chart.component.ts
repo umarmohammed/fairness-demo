@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Metrics, PerformanceMetric } from './metrics';
 import { ScatterService } from './scatter.service';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -15,8 +14,8 @@ import { MatSelectChange } from '@angular/material/select';
         [yAxis]="showYAxis"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="scatterX$ | async"
-        [yAxisLabel]="scatterY$ | async"
+        [xAxisLabel]="metrics.x"
+        [yAxisLabel]="metrics.y"
         [yScaleMin]="yScaleMin"
         [yScaleMax]="yScaleMax"
         [minRadius]="minRadius"
@@ -30,12 +29,9 @@ import { MatSelectChange } from '@angular/material/select';
           <mat-label>x</mat-label>
           <mat-select
             (selectionChange)="onSelectionChange('x', $event)"
-            [value]="scatterX$ | async"
+            [value]="metrics.x"
           >
-            <mat-option
-              *ngFor="let metric of metrics.fairness"
-              [value]="metric.name"
-            >
+            <mat-option *ngFor="let metric of metrics.xs" [value]="metric.name">
               {{ metric.name }}
             </mat-option>
           </mat-select>
@@ -44,12 +40,9 @@ import { MatSelectChange } from '@angular/material/select';
           <mat-label>y</mat-label>
           <mat-select
             (selectionChange)="onSelectionChange('y', $event)"
-            [value]="scatterY$ | async"
+            [value]="metrics.y"
           >
-            <mat-option
-              *ngFor="let metric of metrics.performance"
-              [value]="metric.name"
-            >
+            <mat-option *ngFor="let metric of metrics.ys" [value]="metric.name">
               {{ metric.name }}
             </mat-option>
           </mat-select>
@@ -89,7 +82,7 @@ import { MatSelectChange } from '@angular/material/select';
   ],
 })
 export class ScatterChartComponent {
-  @Input() metrics: Metrics;
+  @Input() metrics: any;
 
   bubbleData = [
     {

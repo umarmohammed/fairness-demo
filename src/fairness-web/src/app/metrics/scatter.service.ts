@@ -15,8 +15,6 @@ export class ScatterService {
     y: this.scatterYSubject,
   };
 
-  constructor(private metricsService: MetricsService) {}
-
   setScatter(axis: string, value: string) {
     this.scatterMap[axis].next(value);
   }

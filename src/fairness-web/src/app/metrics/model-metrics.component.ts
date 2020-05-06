@@ -9,13 +9,17 @@ import { Metric } from './metrics';
     <div *ngIf="error$ | async as error" class="error">
       There was an error getting metrics for these features.
     </div>
-    <div *ngIf="metrics$ | async as metrics" class="metrics">
+    <div
+      *ngIf="!(error$ | async)"
+      [class.hidden]="loading$ | async"
+      class="metrics"
+    >
       <div class="chart-row">
         <div class="chart performance">
           <p class="title">Performance</p>
           <div class="performance-charts">
             <ngx-charts-custom-bar-vertical
-              [results]="metrics.performance"
+              [results]="performanceMetrics$ | async"
               [yScaleMin]="0"
               [yScaleMax]="1"
               [yAxis]="true"
@@ -26,14 +30,21 @@ import { Metric } from './metrics';
           </div>
           <fai-threshold-slider></fai-threshold-slider>
         </div>
-        <fai-scatter [metrics]="metrics" class="performance"></fai-scatter>
+        <fai-scatter
+          *ngIf="scatterMetrics$ | async as metrics"
+          [metrics]="metrics"
+          class="performance"
+        ></fai-scatter>
       </div>
 
       <div class="chart fairness">
         <p class="title">Fairness</p>
         <div class="performance-charts">
           <fai-fairness-chart
-            *ngFor="let metric of metrics.fairness; trackBy: trackByFunction"
+            *ngFor="
+              let metric of fairnessMetrics$ | async;
+              trackBy: trackByFunction
+            "
             [metric]="metric"
             class="chart-wrapper"
           ></fai-fairness-chart>
@@ -119,12 +130,18 @@ import { Metric } from './metrics';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModelMetricsComponent {
+export class ModelMetricsComponent implements OnInit {
   loading$ = this.metricsService.metricsLoading$;
-  metrics$ = this.metricsService.metricsForThreshold$;
+  performanceMetrics$ = this.metricsService.performanceMetrics$;
+  fairnessMetrics$ = this.metricsService.fairnessMetrics$;
   error$ = this.metricsService.error$;
+  scatterMetrics$ = this.metricsService.scatterMetrics$;
 
   constructor(private metricsService: MetricsService) {}
+
+  ngOnInit(): void {
+    this.metricsService.metricsPageEntered();
+  }
 
   trackByFunction(_index: number, item: Metric) {
     return item.name;
