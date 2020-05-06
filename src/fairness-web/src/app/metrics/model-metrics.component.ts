@@ -26,20 +26,10 @@ import { Metric } from './metrics';
           </div>
           <fai-threshold-slider></fai-threshold-slider>
         </div>
-        <div class="chart performance">
-          <p class="title">Scatter</p>
-          <div class="performance-charts">
-            <ngx-charts-custom-bar-vertical
-              [results]="metrics.performance"
-              [yScaleMin]="0"
-              [yScaleMax]="1"
-              [yAxis]="true"
-              [showDataLabel]="true"
-              [xAxis]="true"
-            >
-            </ngx-charts-custom-bar-vertical>
-          </div>
-        </div>
+        <fai-scatter
+          [performance]="metrics.performance"
+          class="performance"
+        ></fai-scatter>
       </div>
 
       <div class="chart fairness">

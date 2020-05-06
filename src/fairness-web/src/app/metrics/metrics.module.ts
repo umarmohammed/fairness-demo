@@ -11,6 +11,7 @@ import { MetricsRoutingModule } from './metrics-routing.module';
 import { MetricsTitleComponent } from './metrics-title.component';
 import { ModelMetricsComponent } from './model-metrics.component';
 import { DataMetricsComponent } from './data-metrics.component';
+import { ScatterChartComponent } from './scatter-chart.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, MetricsRoutingModule, ChartsModule],
@@ -23,6 +24,7 @@ import { DataMetricsComponent } from './data-metrics.component';
     MetricsTitleComponent,
     ModelMetricsComponent,
     DataMetricsComponent,
+    ScatterChartComponent,
   ],
 })
 export class MetricsModule {}
