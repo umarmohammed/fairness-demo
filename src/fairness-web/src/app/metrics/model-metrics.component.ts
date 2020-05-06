@@ -26,10 +26,7 @@ import { Metric } from './metrics';
           </div>
           <fai-threshold-slider></fai-threshold-slider>
         </div>
-        <fai-scatter
-          [performance]="metrics.performance"
-          class="performance"
-        ></fai-scatter>
+        <fai-scatter [metrics]="metrics" class="performance"></fai-scatter>
       </div>
 
       <div class="chart fairness">
