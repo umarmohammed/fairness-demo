@@ -57,7 +57,7 @@ export class MetricsService {
   );
 
   scatterMetrics$ = this.metrics$.pipe(
-    switchMap((metrics) =>
+    switchMap((metrics: Metrics[]) =>
       combineLatest([
         this.scatterService.scatterX$,
         this.scatterService.scatterY$,
@@ -67,6 +67,26 @@ export class MetricsService {
           ys: metrics && metrics[0].performance,
           x: x || (metrics && metrics[0].fairness[0].name),
           y: y || (metrics && metrics[0].performance[0].name),
+          data: [
+            {
+              name: 'results',
+              series:
+                metrics &&
+                metrics.slice(1).map((metric) => ({
+                  name: `threshold ${metric.threshold}`,
+                  x: metric.fairness.find(
+                    (f) =>
+                      f.name === (x || (metrics && metrics[0].fairness[0].name))
+                  ).value,
+                  y: metric.performance.find(
+                    (f) =>
+                      f.name ===
+                      (y || (metrics && metrics[0].performance[0].name))
+                  ).value,
+                  r: 0.5,
+                })),
+            },
+          ],
         }))
       )
     )
