@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Metrics, PerformanceMetric } from './metrics';
+import { ScatterService } from './scatter.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'fai-scatter',
@@ -13,8 +15,8 @@ import { Metrics, PerformanceMetric } from './metrics';
         [yAxis]="showYAxis"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
+        [xAxisLabel]="scatterX$ | async"
+        [yAxisLabel]="scatterY$ | async"
         [yScaleMin]="yScaleMin"
         [yScaleMax]="yScaleMax"
         [minRadius]="minRadius"
@@ -26,7 +28,10 @@ import { Metrics, PerformanceMetric } from './metrics';
       <div class="select-container">
         <mat-form-field>
           <mat-label>x</mat-label>
-          <mat-select>
+          <mat-select
+            (selectionChange)="onSelectionChange('x', $event)"
+            [value]="scatterX$ | async"
+          >
             <mat-option
               *ngFor="let metric of metrics.fairness"
               [value]="metric.name"
@@ -37,7 +42,10 @@ import { Metrics, PerformanceMetric } from './metrics';
         </mat-form-field>
         <mat-form-field>
           <mat-label>y</mat-label>
-          <mat-select>
+          <mat-select
+            (selectionChange)="onSelectionChange('y', $event)"
+            [value]="scatterY$ | async"
+          >
             <mat-option
               *ngFor="let metric of metrics.performance"
               [value]="metric.name"
@@ -68,7 +76,7 @@ import { Metrics, PerformanceMetric } from './metrics';
 
       .select-grid {
         display: grid;
-        justify-content: center;
+        padding: 0 45px;
       }
 
       .select-container {
@@ -76,8 +84,6 @@ import { Metrics, PerformanceMetric } from './metrics';
         grid-template-columns: 200px 200px;
         gap: 10px;
         width: 100%;
-        align-items: center;
-        margin: auto;
       }
     `,
   ],
@@ -198,4 +204,13 @@ export class ScatterChartComponent {
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
   };
+
+  scatterX$ = this.scatterService.scatterX$;
+  scatterY$ = this.scatterService.scatterY$;
+
+  constructor(private scatterService: ScatterService) {}
+
+  onSelectionChange(axis: string, matSelectChange: MatSelectChange) {
+    this.scatterService.setScatter(axis, matSelectChange.value);
+  }
 }
