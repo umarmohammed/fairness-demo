@@ -72,12 +72,12 @@ export class MetricsService {
           ...foo,
           data: [
             {
-              name: 'fair',
+              name: 'Fair',
               series:
                 metrics && this.metricsToSeries(metrics, foo.x, foo.y, true),
             },
             {
-              name: 'unfair',
+              name: 'Unfair',
               series:
                 metrics && this.metricsToSeries(metrics, foo.x, foo.y, false),
             },
