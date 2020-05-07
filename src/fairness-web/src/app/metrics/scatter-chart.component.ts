@@ -83,7 +83,7 @@ export class ScatterChartComponent {
   @Input() metrics: any;
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+    domain: ['#5ab769', '#f4523b'],
   };
 
   constructor(private scatterService: ScatterService) {}

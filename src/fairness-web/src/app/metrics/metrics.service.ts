@@ -67,24 +67,19 @@ export class MetricsService {
           ys: metrics && metrics[0].performance,
           x: x || (metrics && metrics[0].fairness[0].name),
           y: y || (metrics && metrics[0].performance[0].name),
+        })),
+        map((foo) => ({
+          ...foo,
           data: [
             {
-              name: 'results',
+              name: 'fair',
               series:
-                metrics &&
-                metrics.slice(1).map((metric) => ({
-                  name: `threshold ${metric.threshold}`,
-                  x: metric.fairness.find(
-                    (f) =>
-                      f.name === (x || (metrics && metrics[0].fairness[0].name))
-                  ).value,
-                  y: metric.performance.find(
-                    (f) =>
-                      f.name ===
-                      (y || (metrics && metrics[0].performance[0].name))
-                  ).value,
-                  r: 0.5,
-                })),
+                metrics && this.metricsToSeries(metrics, foo.x, foo.y, true),
+            },
+            {
+              name: 'unfair',
+              series:
+                metrics && this.metricsToSeries(metrics, foo.x, foo.y, false),
             },
           ],
         }))
@@ -102,4 +97,43 @@ export class MetricsService {
   metricsPageEntered() {
     this.metricsLoadingSubject.next(true);
   }
+
+  // TODO: tidy this up with array.reduce
+  private metricsByFairness(
+    metrics: Metrics[],
+    fairnessMetric: string,
+    fair: boolean
+  ): Metrics[] {
+    return metrics
+      .slice(1)
+      .filter(
+        (metric) =>
+          metricIsFair(
+            metric.fairness.find((f) => f.name === fairnessMetric)
+          ) === fair
+      );
+  }
+
+  private metricsToSeries(
+    metrics: Metrics[],
+    fairnessMetric: string,
+    performanceMetric: string,
+    fair: boolean
+  ) {
+    return this.metricsByFairness(metrics, fairnessMetric, fair).map(
+      (metric) => ({
+        name: `threshold ${metric.threshold}`,
+        x: metric.fairness.find((f) => f.name === fairnessMetric).value,
+        y: metric.performance.find((f) => f.name === performanceMetric).value,
+        r: 0.5,
+      })
+    );
+  }
+}
+
+export function metricIsFair(metric: any) {
+  return metric.thresholds.length === 1
+    ? metric.value === metric.thresholds[0]
+    : metric.value <= metric.thresholds[0] &&
+        metric.value >= metric.thresholds[2];
 }
