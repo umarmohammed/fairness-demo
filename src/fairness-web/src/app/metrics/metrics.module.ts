@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
-import { SelectProtectedFeatureComponent } from './select-protected-feature.component';
 import { MetricsComponent } from './metrics.component';
 import { ChartWrapperComponent } from './chart-wrapper.component';
 import { FairnessChartComponent } from './fairness-chart.component';
@@ -18,7 +17,6 @@ import { TradeOffComponent } from './trade-off.component';
 @NgModule({
   imports: [CommonModule, MaterialModule, MetricsRoutingModule, ChartsModule],
   declarations: [
-    SelectProtectedFeatureComponent,
     MetricsComponent,
     ChartWrapperComponent,
     FairnessChartComponent,
