@@ -25,7 +25,9 @@ import { Metric } from './metrics';
         Trade Offs
       </a>
     </nav>
-    <router-outlet></router-outlet>
+    <div style="height: calc(100% - 49px)">
+      <router-outlet></router-outlet>
+    </div>
   `,
 
   changeDetection: ChangeDetectionStrategy.OnPush,
