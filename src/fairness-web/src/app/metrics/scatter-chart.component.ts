@@ -29,8 +29,8 @@ import { MatSelectChange } from '@angular/material/select';
             (selectionChange)="onSelectionChange('x', $event)"
             [value]="metrics.x"
           >
-            <mat-option *ngFor="let metric of metrics.xs" [value]="metric.name">
-              {{ metric.name }}
+            <mat-option *ngFor="let metric of metrics.xs" [value]="metric">
+              {{ metric }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -40,8 +40,8 @@ import { MatSelectChange } from '@angular/material/select';
             (selectionChange)="onSelectionChange('y', $event)"
             [value]="metrics.y"
           >
-            <mat-option *ngFor="let metric of metrics.ys" [value]="metric.name">
-              {{ metric.name }}
+            <mat-option *ngFor="let metric of metrics.ys" [value]="metric">
+              {{ metric }}
             </mat-option>
           </mat-select>
         </mat-form-field>

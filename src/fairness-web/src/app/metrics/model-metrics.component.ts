@@ -15,21 +15,13 @@ import { Metric } from './metrics';
       class="metrics"
     >
       <div class="chart-row">
-        <div class="chart performance">
-          <p class="title">Performance</p>
-          <div class="performance-charts">
-            <ngx-charts-custom-bar-vertical
-              [results]="performanceMetrics$ | async"
-              [yScaleMin]="0"
-              [yScaleMax]="1"
-              [yAxis]="true"
-              [showDataLabel]="true"
-              [xAxis]="true"
-            >
-            </ngx-charts-custom-bar-vertical>
-          </div>
-          <fai-threshold-slider></fai-threshold-slider>
-        </div>
+        <fai-performance-chart
+          *ngIf="performanceMetrics$ | async as metrics"
+          [metrics]="metrics"
+          type="single"
+          class="performance"
+        ></fai-performance-chart>
+
         <fai-scatter
           *ngIf="scatterMetrics$ | async as metrics"
           [metrics]="metrics"
@@ -48,6 +40,9 @@ import { Metric } from './metrics';
             [metric]="metric"
             class="chart-wrapper"
           ></fai-fairness-chart>
+        </div>
+        <div>
+          <fai-threshold-slider></fai-threshold-slider>
         </div>
       </div>
     </div>
@@ -73,6 +68,7 @@ import { Metric } from './metrics';
 
       .performance {
         width: calc(50% - 5px);
+        height: 100%;
       }
 
       .chart-row {

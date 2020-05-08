@@ -4,6 +4,7 @@ from joblib import load
 import numpy as np
 import json
 from sklearn import metrics
+from functools import reduce
 
 app = Flask(__name__)
 CORS(app)
@@ -76,25 +77,50 @@ fair_metrics = {"Cohen-D": (CohenD, [0]),
                 }
 
 
-def computeMetrics(y, gmin, gmaj, ypred_prob):
+def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
 
     def computeMetricsForThreshold(threshold):
         ypred_class = (ypred_prob >= threshold) * 1.0
-        metrics = []
-        fairness_metrics = []
-        for pf in perf_metrics.keys():
-            if pf in ["AUC", "Brier"]:
-                metrics += [{"name": pf, "value": perf_metrics[pf]
-                             (y.values.ravel(), ypred_prob)}]
-            else:
-                metrics += [{"name": pf, "value": perf_metrics[pf]
-                             (y.values.ravel(), ypred_class)}]
 
+        def computePerformanceMetrics_(perf_name):
+
+            def computePerformanceMetric(filter_name):
+                def getSelectedFeatureName():
+                    return selectedFeatures[filter_name] if filter_name in selectedFeatures else filter_name
+
+                def getPerformanceParams():
+                    def getFilter():
+                        if (filter_name == 'gmin'):
+                            return gmin == 1
+                        if (filter_name == 'gmaj'):
+                            return gmaj == 1
+                        return None
+
+                    if filter_name is 'all':
+                        return (getSelectedFeatureName(), y.values.ravel(), ypred_prob, ypred_class)
+                    return (getSelectedFeatureName(), y.values.ravel()[getFilter()], ypred_prob[getFilter()], ypred_class[getFilter()])
+
+                (feature_name, y_values_filtered, ypred_prob_filtered,
+                 ypred_class_filtered) = getPerformanceParams()
+                if perf_name in ["AUC", "Brier"]:
+                    return {"name": feature_name, "value": perf_metrics[perf_name]
+                            (y_values_filtered, ypred_prob_filtered)}
+                else:
+                    return {"name": feature_name, "value": perf_metrics[perf_name]
+                            (y_values_filtered, ypred_class_filtered)}
+
+            return {perf_name: [computePerformanceMetric(filter_name) for filter_name in ['all', 'gmin', 'gmaj']]}
+
+        def computeAllPerformanceMetrics():
+            return reduce((lambda x, y: {**x, **y}), [computePerformanceMetrics_(
+                perf_name) for perf_name in perf_metrics.keys()])
+
+        fairness_metrics = []
         for ff in fair_metrics.keys():
             fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
                                   (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
 
-        return {"threshold": threshold, "performance": metrics, "fairness": fairness_metrics}
+        return {"threshold": threshold, "performance": computeAllPerformanceMetrics(), "fairness": fairness_metrics}
 
     return list(map(computeMetricsForThreshold, [i/100 for i in list(range(0, 102, 2))]))
 
@@ -113,7 +139,7 @@ def getStuffNeededForMetrics(modelAndData, selectedFeatures):
     gmaj = X[selectedFeatures["gmaj"]].values
     model = modelAndData["model"]
     ypred_prob = model.predict_proba(X).ravel()[1::2]
-    return (y, gmin, gmaj, ypred_prob)
+    return (y, gmin, gmaj, ypred_prob, selectedFeatures)
 
 
 @app.route("/api/metrics", methods=["POST"])

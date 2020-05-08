@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
 import { switchMap, map, tap, share, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Metrics, fairnessMetricsForDisplay } from './metrics';
+import {
+  Metrics,
+  fairnessMetricsForDisplay,
+  PerformanceMetric,
+} from './metrics';
 import { ThresholdService } from './threshold.service';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Subject, combineLatest } from 'rxjs';
 import { ScatterService } from './scatter.service';
+import { PerformanceService } from './performance.service';
 
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
@@ -50,8 +55,16 @@ export class MetricsService {
   );
 
   performanceMetrics$ = this.metricsForThreshold$.pipe(
-    map((metrics) => metrics.performance)
+    switchMap((metrics) =>
+      this.performanceService.performanceType$.pipe(
+        map((type) => ({
+          values: this.performanceToChartSeries(metrics.performance, type),
+          type,
+        }))
+      )
+    )
   );
+
   fairnessMetrics$ = this.metricsForThreshold$.pipe(
     map((metrics) => metrics.fairness)
   );
@@ -63,10 +76,10 @@ export class MetricsService {
         this.scatterService.scatterY$,
       ]).pipe(
         map(([x, y]) => ({
-          xs: metrics && metrics[0].fairness,
-          ys: metrics && metrics[0].performance,
+          xs: metrics && metrics[0].fairness.map((f) => f.name),
+          ys: metrics && Object.keys(metrics[0].performance),
           x: x || (metrics && metrics[0].fairness[0].name),
-          y: y || (metrics && metrics[0].performance[0].name),
+          y: y || (metrics && Object.keys(metrics[0].performance))[0],
         })),
         map((foo) => ({
           ...foo,
@@ -91,7 +104,8 @@ export class MetricsService {
     private featuresService: FeaturesService,
     private http: HttpClient,
     private thresholdService: ThresholdService,
-    private scatterService: ScatterService
+    private scatterService: ScatterService,
+    private performanceService: PerformanceService
   ) {}
 
   metricsPageEntered() {
@@ -124,10 +138,28 @@ export class MetricsService {
       (metric) => ({
         name: `threshold ${metric.threshold}`,
         x: metric.fairness.find((f) => f.name === fairnessMetric).value,
-        y: metric.performance.find((f) => f.name === performanceMetric).value,
+        y: metric.performance[performanceMetric].find((f) => f.name === 'all')
+          .value,
         r: 0.5,
       })
     );
+  }
+
+  private performanceToChartSeries(
+    performance: {
+      [key: string]: PerformanceMetric[];
+    },
+    type: string
+  ) {
+    return type === 'multi'
+      ? Object.keys(performance).map((k) => ({
+          name: k,
+          series: performance[k],
+        }))
+      : Object.keys(performance).map((k) => ({
+          name: k,
+          value: performance[k].find((m) => m.name === 'all').value,
+        }));
   }
 }
 

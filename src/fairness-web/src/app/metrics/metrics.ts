@@ -1,6 +1,6 @@
 export interface Metrics {
   threshold: number;
-  performance: PerformanceMetric[];
+  performance: { [key: string]: PerformanceMetric[] };
   fairness: FairnessMetric[];
 }
 
