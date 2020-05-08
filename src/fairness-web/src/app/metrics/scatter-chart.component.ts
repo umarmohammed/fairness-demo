@@ -5,22 +5,6 @@ import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'fai-scatter',
   template: `
-    <p class="title">Scatter</p>
-    <div class="performance-charts">
-      <ngx-charts-bubble-chart
-        [scheme]="colorScheme"
-        [results]="metrics.data"
-        [xAxis]="true"
-        [yAxis]="true"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxisLabel]="metrics.x"
-        [yAxisLabel]="metrics.y"
-        [yScaleMin]="0"
-        [yScaleMax]="1"
-      >
-      </ngx-charts-bubble-chart>
-    </div>
     <div class="select-grid">
       <div class="select-container">
         <mat-form-field>
@@ -47,6 +31,23 @@ import { MatSelectChange } from '@angular/material/select';
         </mat-form-field>
       </div>
     </div>
+    <div class="performance-charts">
+      <ngx-charts-bubble-chart
+        [scheme]="colorScheme"
+        [results]="metrics.data"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="metrics.x"
+        [yAxisLabel]="metrics.y"
+        [yScaleMin]="0"
+        [yScaleMax]="1.1"
+        [roundDomains]="true"
+        [legend]="true"
+      >
+      </ngx-charts-bubble-chart>
+    </div>
   `,
   styles: [
     `
@@ -57,7 +58,7 @@ import { MatSelectChange } from '@angular/material/select';
       .performance-charts {
         display: flex;
         height: 100%;
-        width: 100%;
+        width: calc(100% - 5px);
       }
 
       .title {
@@ -67,7 +68,8 @@ import { MatSelectChange } from '@angular/material/select';
 
       .select-grid {
         display: grid;
-        padding: 0 45px;
+        margin-left: 75px;
+        margin-top: 5px;
       }
 
       .select-container {
