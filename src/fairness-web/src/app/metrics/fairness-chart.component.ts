@@ -40,19 +40,26 @@ export class FairnessChartComponent {
   };
 
   ticks(name: string) {
-    return name === '2-SD Rule' || name === 'DispImpact'
-      ? [-3, -2, -1, 0, 1, 2, 3]
-      : [-1, -0.5, 0, 0.5, 1];
+    const axisTicks = {
+      'Cohen-D': [-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3],
+      '2-SD Rule': [-3, -2, -1, 0, 1, 2, 3],
+      StatParity: [-0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2],
+      EqualOppDiff: [-0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2],
+      DispImpact: [-3, -2, -1, 0, 1, 2, 3],
+      AvgOddsDiff: [-0.2, -0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15, 0.2],
+    };
+
+    return axisTicks[name];
   }
 
   yAxisScale(name: string) {
     const axisScales = {
-      'Cohen-D': { min: '-1', max: '1' },
+      'Cohen-D': { min: '-0.3', max: '0.3' },
       '2-SD Rule': { min: '-3', max: '3' },
-      StatParity: { min: '-1', max: '1' },
-      EqualOppDiff: { min: '-1', max: '1' },
+      StatParity: { min: '-0.2', max: '0.2' },
+      EqualOppDiff: { min: '-0.2', max: '0.2' },
       DispImpact: { min: '-3', max: '3' },
-      AvgOddsDiff: { min: '-1', max: '1' },
+      AvgOddsDiff: { min: '-0.2', max: '0.2' },
     };
 
     return (min: number, max: number) =>
