@@ -13,6 +13,7 @@ import { ScatterChartComponent } from './scatter-chart.component';
 import { PerformanceChartComponent } from './performance-chart.component';
 import { FooComponent } from './foo.component';
 import { TradeOffComponent } from './trade-off.component';
+import { FairModelComponent } from './fair-model.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, MetricsRoutingModule, ChartsModule],
@@ -27,6 +28,7 @@ import { TradeOffComponent } from './trade-off.component';
     PerformanceChartComponent,
     FooComponent,
     TradeOffComponent,
+    FairModelComponent,
   ],
 })
 export class MetricsModule {}

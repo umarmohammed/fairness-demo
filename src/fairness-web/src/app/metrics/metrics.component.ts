@@ -13,6 +13,9 @@ import { SideNavService } from '../core/side-nav.service';
           <a mat-list-item routerLink="model" routerLinkActive="active"
             >Model</a
           >
+          <a mat-list-item routerLink="fair-model" routerLinkActive="active"
+            >Fair Model</a
+          >
         </mat-nav-list>
       </mat-sidenav>
       <mat-sidenav-content>
