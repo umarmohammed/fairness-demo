@@ -5,7 +5,6 @@ import { Metric } from './metrics';
 @Component({
   selector: 'fai-model-metrics',
   template: `
-    <fai-metrics-title class="title"></fai-metrics-title>
     <div *ngIf="error$ | async as error" class="error">
       There was an error getting metrics for these features.
     </div>
@@ -64,6 +63,7 @@ import { Metric } from './metrics';
 
       .metrics {
         flex: 1;
+        padding-top: 10px;
       }
 
       .performance {
@@ -90,10 +90,6 @@ import { Metric } from './metrics';
 
       .chart-wrapper {
         width: calc((100% - 10px) / 6);
-      }
-
-      .title {
-        margin: 10px auto 0;
       }
 
       .error {

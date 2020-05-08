@@ -35,6 +35,13 @@ import { SideNavService } from './side-nav.service';
         >
           fix
         </button>
+        <fai-title class="title"></fai-title>
+        <a href="https://www.netlify.com">
+          <img
+            src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
+            alt="Deploys by Netlify"
+          />
+        </a>
       </mat-toolbar-row>
     </mat-toolbar>
     <router-outlet></router-outlet>
@@ -63,6 +70,14 @@ import { SideNavService } from './side-nav.service';
 
       .fix-icon {
         font-size: 22px;
+      }
+
+      .title {
+        flex: 1 1 auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: flex;
       }
     `,
   ],

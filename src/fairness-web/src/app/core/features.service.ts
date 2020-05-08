@@ -38,13 +38,13 @@ export class FeaturesService {
     gmaj: this.gmajSubject,
   };
 
-  selectedFeatures$ = combineLatest([this.gminSubject, this.gmajSubject]).pipe(
-    filter(([gmin, gmaj]) => !!gmin && !!gmaj),
-    map(([gmin, gmaj]): SelectedFeature => ({ gmin, gmaj }))
+  groupNames$ = combineLatest([this.gminSubject, this.gmajSubject]).pipe(
+    filter(([gmin, gmaj]) => !!gmin && !!gmaj)
   );
 
-  unprivelegedGroup$ = this.gminSubject.asObservable();
-  privelegedGroup$ = this.gmajSubject.asObservable();
+  selectedFeatures$ = this.groupNames$.pipe(
+    map(([gmin, gmaj]): SelectedFeature => ({ gmin, gmaj }))
+  );
 
   featuresToUpload$ = this.selectedFeatures$.pipe(
     withLatestFrom(this.modelService.model$),
