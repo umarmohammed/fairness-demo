@@ -125,10 +125,6 @@ export class FooComponent {
 
   constructor(private metricsService: MetricsService) {}
 
-  ngOnInit(): void {
-    this.metricsService.metricsPageEntered();
-  }
-
   trackByFunction(_index: number, item: Metric) {
     return item.name;
   }

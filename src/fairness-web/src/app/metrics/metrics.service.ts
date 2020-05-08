@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
-import { switchMap, map, tap, share, catchError } from 'rxjs/operators';
+import { switchMap, map, tap, catchError, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {
   Metrics,
@@ -40,7 +40,7 @@ export class MetricsService {
       )
     ),
     tap(() => this.metricsLoadingSubject.next(false)),
-    share()
+    shareReplay()
   );
 
   metricsForThreshold$ = this.metrics$.pipe(
@@ -107,10 +107,6 @@ export class MetricsService {
     private scatterService: ScatterService,
     private performanceService: PerformanceService
   ) {}
-
-  metricsPageEntered() {
-    this.metricsLoadingSubject.next(true);
-  }
 
   // TODO: tidy this up with array.reduce
   private metricsByFairness(
