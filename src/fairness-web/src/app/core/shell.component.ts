@@ -34,7 +34,6 @@ import { SideNavService } from './side-nav.service';
           [disabled]="!(selectedFeatures$ | async)"
         >
           fix
-          <mat-icon class="fix-icon">filter_center_focus</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>
