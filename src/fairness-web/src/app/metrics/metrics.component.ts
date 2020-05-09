@@ -35,6 +35,8 @@ import { Metric } from './metrics';
       }
       .active {
         color: #3f51b5;
+        font-weight: 500;
+        background-color: #f5f5f5;
       }
 
       mat-sidenav {
