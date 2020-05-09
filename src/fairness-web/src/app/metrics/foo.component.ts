@@ -28,6 +28,7 @@ import { Metric } from './metrics';
             [showYAxisLabel]="true"
             yAxisLabel="%"
             [legend]="true"
+            [yScaleMax]="100"
           >
           </ngx-charts-bar-vertical-stacked>
         </div>

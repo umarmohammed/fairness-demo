@@ -79,7 +79,7 @@ fair_metrics = {"Cohen-D": (CohenD, [0]),
                 }
 
 
-def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures, rf, X):
+def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
 
     def computeMetricsForThreshold(threshold):
         ypred_class = (ypred_prob >= threshold) * 1.0
@@ -132,7 +132,7 @@ def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures, rf, X):
 
             def computeGroupAR():
                 g = getG()
-                return sum(rf.predict(X).ravel()[g == 1])/sum(g) * 100.0
+                return sum(ypred_class[g == 1])/sum(g) * 100.0
 
             series = [{'name': 'Group Frequency %', 'value': computeGroupFrequency()},
                       {'name': 'Group Acceptance Rate %', 'value': computeGroupAR()}]
@@ -213,7 +213,7 @@ def getStuffNeededForMetrics(modelAndData, selectedFeatures):
     gmaj = X[selectedFeatures["gmaj"]].values
     model = modelAndData["model"]
     ypred_prob = model.predict_proba(X).ravel()[1::2]
-    return (y, gmin, gmaj, ypred_prob, selectedFeatures, model, X)
+    return (y, gmin, gmaj, ypred_prob, selectedFeatures)
 
 
 @app.route("/api/metrics", methods=["POST"])
