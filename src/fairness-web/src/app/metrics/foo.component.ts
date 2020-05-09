@@ -73,7 +73,7 @@ import { Metric } from './metrics';
       }
 
       .performance {
-        width: 50%;
+        width: calc(50% - 5px);
         height: 100%;
       }
 
