@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 import sys
 from joblib import dump
 import os
@@ -11,8 +11,7 @@ def build_model(data_filename):
     df = pd.read_csv(data_filename)
     X = df[df.columns[:-1]]
     y = df[df.columns[-1]]
-    rf = RandomForestClassifier(
-        n_estimators=10, random_state=10, class_weight="balanced")
+    rf = LogisticRegression(random_state=10, class_weight="balanced")
     rf.fit(X, y.values.ravel())
     return {"X": X, "y": y, "model": rf}
 
