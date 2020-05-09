@@ -16,7 +16,7 @@ import { MatRadioChange } from '@angular/material/radio';
     </mat-radio-group>
     <p class="title">Performance</p>
     <div class="performance-charts">
-      <ngx-charts-bar-vertical-2d
+      <ngx-charts-custom-bar-vertical-2d
         *ngIf="metrics && metrics.type == 'multi'; else elseBlock"
         [results]="metrics.values"
         [yScaleMax]="1"
@@ -26,7 +26,7 @@ import { MatRadioChange } from '@angular/material/radio';
         [legend]="true"
         [roundEdges]="false"
       >
-      </ngx-charts-bar-vertical-2d>
+      </ngx-charts-custom-bar-vertical-2d>
 
       <ng-template #elseBlock>
         <ngx-charts-custom-bar-vertical
