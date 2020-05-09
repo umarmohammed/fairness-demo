@@ -12,6 +12,18 @@ import { Metric } from './metrics';
         type="single"
         class="performance"
       ></fai-performance-chart>
+      <div class="performance">
+        <ngx-charts-bar-vertical-stacked
+          [results]="dfplot$ | async"
+          [xAxis]="true"
+          [yAxis]="true"
+          [showYAxisLabel]="true"
+          yAxisLabel="%"
+          [legend]="true"
+          [yScaleMax]="100"
+        >
+        </ngx-charts-bar-vertical-stacked>
+      </div>
     </div>
 
     <div class="chart fairness">
@@ -43,7 +55,7 @@ import { Metric } from './metrics';
       }
 
       .performance {
-        width: calc(100% - 5px);
+        width: calc(50% - 5px);
         height: 100%;
       }
 
@@ -100,6 +112,7 @@ import { Metric } from './metrics';
 export class FairModelComponent {
   fairModelPerformance$ = this.fairModelService.fairModelPerformance$;
   fairModelFairness$ = this.fairModelService.fairModelFairness$;
+  dfplot$ = this.fairModelService.fairDfplot$;
 
   constructor(private fairModelService: FairModelService) {}
 

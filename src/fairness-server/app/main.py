@@ -141,8 +141,6 @@ def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
 
             return {'name': group, 'series': series}
 
-        # TODO: this doesn't depend on threshold so shouldn't be here
-        # Need to check with Adriano if this is the case
         df_plot = [computeRatesForGroup(group)
                    for group in ['Priveleged', 'Unpriveleged']]
 
@@ -191,12 +189,34 @@ def computeFairMetrics(y, gmin, gmaj, ypred_prob, ypred_class, selectedFeatures)
         return reduce((lambda x, y: {**x, **y}), [computePerformanceMetrics_(
             perf_name) for perf_name in perf_metrics.keys()])
 
+    def computeRatesForGroup(group):
+        def getG():
+            return gmaj if group == 'Priveleged' else gmin
+
+        def computeGroupFrequency():
+            g = getG()
+            return sum(g)/(sum(g) + sum(g == 0)) * 100.0
+
+        def computeGroupAR():
+            g = getG()
+            return sum(ypred_class[g == 1])/sum(g) * 100.0
+
+        series = [{'name': 'Group Frequency %', 'value': computeGroupFrequency()},
+                  {'name': 'Group Acceptance Rate %', 'value': computeGroupAR()}]
+        series = sorted(series, key=lambda k: k['value'])
+        series[1]['value'] = series[1]['value'] - series[0]['value']
+
+        return {'name': group, 'series': series}
+
+    df_plot = [computeRatesForGroup(group)
+               for group in ['Priveleged', 'Unpriveleged']]
+
     fairness_metrics = []
     for ff in fair_metrics.keys():
         fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
                               (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
 
-    return {"performance": computeAllPerformanceMetrics(), "fairness": fairness_metrics}
+    return {"performance": computeAllPerformanceMetrics(), "fairness": fairness_metrics, "dfPlot": df_plot}
 
 
 @app.route("/api/features", methods=["POST"])

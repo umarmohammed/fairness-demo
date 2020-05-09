@@ -51,6 +51,10 @@ export class FairModelService {
     tap(console.log)
   );
 
+  fairDfplot$ = this.fairModelMetrics$.pipe(
+    map((metrics) => metrics && metrics.dfPlot)
+  );
+
   constructor(
     private fixService: FixService,
     private featureService: FeaturesService,

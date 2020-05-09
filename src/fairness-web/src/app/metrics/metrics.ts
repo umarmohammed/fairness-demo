@@ -8,6 +8,7 @@ export interface Metrics {
 export interface FairModelMetrics {
   performance: { [key: string]: PerformanceMetric[] };
   fairness: FairnessMetric[];
+  dfPlot: any[];
 }
 
 export interface Metric {
