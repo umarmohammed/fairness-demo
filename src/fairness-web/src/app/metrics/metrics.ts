@@ -4,6 +4,11 @@ export interface Metrics {
   fairness: FairnessMetric[];
 }
 
+export interface FairModelMetrics {
+  performance: { [key: string]: PerformanceMetric[] };
+  fairness: FairnessMetric[];
+}
+
 export interface Metric {
   name: string;
 }
@@ -23,7 +28,7 @@ export function fairnessMetricsForDisplay(metrics: FairnessMetric[]) {
   return metrics.map(fairnessMetricForDisplay);
 }
 
-function fairnessMetricForDisplay(metric: FairnessMetric) {
+export function fairnessMetricForDisplay(metric: FairnessMetric) {
   function thresholdsToLineRange(thresholds: number[]) {
     return {
       name: 'Fair',

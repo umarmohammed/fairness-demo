@@ -49,7 +49,7 @@ export class MetricsComponent {
   metrics$ = this.metricsService.metricsForThreshold$;
   error$ = this.metricsService.error$;
   sideNavOpen$ = this.sideNavService.sideNavOpen$;
-  fairModel$ = this.fairModelService.fairModel$;
+  fairModel$ = this.fairModelService.fairModelMetrics$;
 
   constructor(
     private metricsService: MetricsService,

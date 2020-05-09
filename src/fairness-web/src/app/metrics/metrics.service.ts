@@ -58,7 +58,7 @@ export class MetricsService {
     switchMap((metrics) =>
       this.performanceService.performanceType$.pipe(
         map((type) => ({
-          values: this.performanceToChartSeries(metrics.performance, type),
+          values: performanceToChartSeries(metrics.performance, type),
           type,
         }))
       )
@@ -140,23 +140,6 @@ export class MetricsService {
       })
     );
   }
-
-  private performanceToChartSeries(
-    performance: {
-      [key: string]: PerformanceMetric[];
-    },
-    type: string
-  ) {
-    return type === 'multi'
-      ? Object.keys(performance).map((k) => ({
-          name: k,
-          series: performance[k],
-        }))
-      : Object.keys(performance).map((k) => ({
-          name: k,
-          value: performance[k].find((m) => m.name === 'all').value,
-        }));
-  }
 }
 
 export function metricIsFair(metric: any) {
@@ -164,4 +147,21 @@ export function metricIsFair(metric: any) {
     ? metric.value === metric.thresholds[0]
     : metric.value <= metric.thresholds[0] &&
         metric.value >= metric.thresholds[2];
+}
+
+export function performanceToChartSeries(
+  performance: {
+    [key: string]: PerformanceMetric[];
+  },
+  type: string
+) {
+  return type === 'multi'
+    ? Object.keys(performance).map((k) => ({
+        name: k,
+        series: performance[k],
+      }))
+    : Object.keys(performance).map((k) => ({
+        name: k,
+        value: performance[k].find((m) => m.name === 'all').value,
+      }));
 }
