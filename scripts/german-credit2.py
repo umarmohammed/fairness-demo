@@ -245,6 +245,8 @@ df_plot = {"Group": ["Privileged", "Unprivileged"],
            "Group Acceptance Rate %": [sum(rf.predict(X).ravel()[gmaj == 1])/sum(gmaj) * 100.0,
                                        sum(rf.predict(X).ravel()[gmin == 1])/sum(gmin) * 100.0]
            }
+
+print(df_plot)
 df_plot = pd.DataFrame(df_plot)
 
 
