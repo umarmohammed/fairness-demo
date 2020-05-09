@@ -24,6 +24,7 @@ import { MatRadioChange } from '@angular/material/radio';
         [showDataLabel]="true"
         [xAxis]="true"
         [legend]="true"
+        [roundEdges]="false"
       >
       </ngx-charts-bar-vertical-2d>
 
@@ -35,6 +36,7 @@ import { MatRadioChange } from '@angular/material/radio';
           [yAxis]="true"
           [showDataLabel]="true"
           [xAxis]="true"
+          [roundEdges]="false"
         >
         </ngx-charts-custom-bar-vertical
       ></ng-template>
