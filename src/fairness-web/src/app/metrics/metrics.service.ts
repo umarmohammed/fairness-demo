@@ -136,7 +136,7 @@ export class MetricsService {
         x: metric.fairness.find((f) => f.name === fairnessMetric).value,
         y: metric.performance[performanceMetric].find((f) => f.name === 'all')
           .value,
-        r: 0.5,
+        r: metric.threshold,
       })
     );
   }

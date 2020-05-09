@@ -45,6 +45,7 @@ import { MatSelectChange } from '@angular/material/select';
         [yScaleMax]="1.1"
         [roundDomains]="true"
         [legend]="true"
+        [minRadius]="3"
       >
       </ngx-charts-bubble-chart>
     </div>
