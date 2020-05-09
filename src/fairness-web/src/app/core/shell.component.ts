@@ -38,12 +38,6 @@ import { FixService } from './fix.service';
           fix
         </button>
         <fai-title class="title"></fai-title>
-        <a href="https://www.netlify.com">
-          <img
-            src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
-            alt="Deploys by Netlify"
-          />
-        </a>
       </mat-toolbar-row>
     </mat-toolbar>
     <router-outlet></router-outlet>
