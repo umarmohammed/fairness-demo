@@ -40,6 +40,11 @@ import { Metric } from './metrics';
       mat-sidenav {
         width: 200px;
       }
+
+      a.mat-list-item-disabled {
+        color: #999;
+        background-color: #fff;
+      }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
