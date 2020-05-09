@@ -20,6 +20,20 @@ import { Metric } from './metrics';
           type="single"
           class="performance"
         ></fai-performance-chart>
+        <div class="performance">
+          <ngx-charts-bar-vertical-stacked
+            [scheme]="colorScheme"
+            [results]="dfplot$ | async"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Group"
+            yAxisLabel="%"
+            [legend]="true"
+          >
+          </ngx-charts-bar-vertical-stacked>
+        </div>
       </div>
 
       <div class="chart fairness">
@@ -61,7 +75,7 @@ import { Metric } from './metrics';
       }
 
       .performance {
-        width: calc(50% - 5px);
+        width: 50%;
         height: 100%;
       }
 
@@ -122,6 +136,11 @@ export class FooComponent {
   fairnessMetrics$ = this.metricsService.fairnessMetrics$;
   error$ = this.metricsService.error$;
   scatterMetrics$ = this.metricsService.scatterMetrics$;
+  dfplot$ = this.metricsService.dfplot$;
+
+  colorScheme = {
+    domain: ['#5AA454', '#C7B42C', '#AAAAAA'],
+  };
 
   constructor(private metricsService: MetricsService) {}
 

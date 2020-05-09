@@ -69,6 +69,25 @@ export class MetricsService {
     map((metrics) => metrics.fairness)
   );
 
+  dfplot$ = this.metricsForThreshold$.pipe(
+    map(() => [
+      {
+        name: 'Priveleged',
+        series: [
+          { name: 'Group Acceptance Rate %', value: 41.01449275362319 },
+          { name: 'Group Frequency %', value: 28.0 },
+        ],
+      },
+      {
+        name: 'Unpriveleged',
+        series: [
+          { name: 'Group Frequency %', value: 31.0 },
+          { name: 'Group Acceptance Rate %', value: 18 },
+        ],
+      },
+    ])
+  );
+
   scatterMetrics$ = this.metrics$.pipe(
     switchMap((metrics: Metrics[]) =>
       combineLatest([
