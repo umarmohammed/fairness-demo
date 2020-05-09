@@ -12,6 +12,7 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SelectedFeature } from '../metrics/selected-feature';
 import { environment } from 'src/environments/environment';
+import { FixService } from './fix.service';
 
 @Injectable({ providedIn: 'root' })
 export class FeaturesService {
@@ -51,10 +52,15 @@ export class FeaturesService {
     map(this.createFeaturesToUpload)
   );
 
-  constructor(private http: HttpClient, private modelService: ModelService) {}
+  constructor(
+    private http: HttpClient,
+    private modelService: ModelService,
+    private fixService: FixService
+  ) {}
 
   updateSelectedFeature(feature: { type: string; value: string }) {
     this.featureTypeMap[feature.type].next(feature.value);
+    this.fixService.clear();
   }
 
   private clearSelectedFeatures() {

@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { MetricsService } from './metrics.service';
-import { Metric } from './metrics';
 import { SideNavService } from '../core/side-nav.service';
+import { FairModelService } from './fair-model.service';
+import { Metric } from './metrics';
 
 @Component({
   selector: 'fai-metrics',
@@ -13,7 +14,11 @@ import { SideNavService } from '../core/side-nav.service';
           <a mat-list-item routerLink="model" routerLinkActive="active"
             >Model</a
           >
-          <a mat-list-item routerLink="fair-model" routerLinkActive="active"
+          <a
+            mat-list-item
+            routerLink="fair-model"
+            routerLinkActive="active"
+            [disabled]="!(fairModel$ | async)"
             >Fair Model</a
           >
         </mat-nav-list>
@@ -29,7 +34,7 @@ import { SideNavService } from '../core/side-nav.service';
         height: calc(100% - 64px);
       }
       .active {
-        background: #f5f5f5;
+        color: #3f51b5;
       }
 
       mat-sidenav {
@@ -44,10 +49,12 @@ export class MetricsComponent {
   metrics$ = this.metricsService.metricsForThreshold$;
   error$ = this.metricsService.error$;
   sideNavOpen$ = this.sideNavService.sideNavOpen$;
+  fairModel$ = this.fairModelService.fairModel$;
 
   constructor(
     private metricsService: MetricsService,
-    private sideNavService: SideNavService
+    private sideNavService: SideNavService,
+    private fairModelService: FairModelService
   ) {}
 
   trackByFunction(_index: number, item: Metric) {

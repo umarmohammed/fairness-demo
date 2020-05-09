@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FeaturesService } from './features.service';
 import { ShellService } from './shell.service';
 import { SideNavService } from './side-nav.service';
+import { FixService } from './fix.service';
 
 @Component({
   selector: 'fai-shell',
@@ -32,6 +33,7 @@ import { SideNavService } from './side-nav.service';
           color="primary"
           mat-flat-button
           [disabled]="!(selectedFeatures$ | async)"
+          (click)="onFixClick()"
         >
           fix
         </button>
@@ -89,12 +91,17 @@ export class ShellComponent {
   constructor(
     private featuresService: FeaturesService,
     private shellService: ShellService,
-    private sideNavService: SideNavService
+    private sideNavService: SideNavService,
+    private fixService: FixService
   ) {}
 
   onMenuClicked() {
     this.sideNavService.toggle();
     this.triggerWindowChangeForCharts();
+  }
+
+  onFixClick() {
+    this.fixService.fix();
   }
 
   triggerWindowChangeForCharts() {
