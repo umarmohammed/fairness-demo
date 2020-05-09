@@ -150,3 +150,13 @@ def getMetrics():
         load(file.stream), json.loads(request.form['data']))
     metrics = computeMetrics(*stuff)
     return jsonify(metrics)
+
+
+@app.route("/api/fix", methods=["POST"])
+def getFix():
+    file = request.files['file']
+
+    stuff = getStuffNeededForMetrics(
+        load(file.stream), json.loads(request.form['data']))
+
+    return jsonify(stuff[-1])
