@@ -115,7 +115,7 @@ export class MetricsService {
     fair: boolean
   ): Metrics[] {
     return metrics
-      .slice(1)
+      .slice(1, metrics.length - 1)
       .filter(
         (metric) =>
           metricIsFair(
