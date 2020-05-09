@@ -22,13 +22,10 @@ import { Metric } from './metrics';
         ></fai-performance-chart>
         <div class="performance">
           <ngx-charts-bar-vertical-stacked
-            [scheme]="colorScheme"
             [results]="dfplot$ | async"
             [xAxis]="true"
             [yAxis]="true"
-            [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            xAxisLabel="Group"
             yAxisLabel="%"
             [legend]="true"
           >
@@ -137,10 +134,6 @@ export class FooComponent {
   error$ = this.metricsService.error$;
   scatterMetrics$ = this.metricsService.scatterMetrics$;
   dfplot$ = this.metricsService.dfplot$;
-
-  colorScheme = {
-    domain: ['#5AA454', '#C7B42C', '#AAAAAA'],
-  };
 
   constructor(private metricsService: MetricsService) {}
 

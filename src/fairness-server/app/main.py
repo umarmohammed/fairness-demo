@@ -79,7 +79,7 @@ fair_metrics = {"Cohen-D": (CohenD, [0]),
                 }
 
 
-def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
+def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures, rf, X):
 
     def computeMetricsForThreshold(threshold):
         ypred_class = (ypred_prob >= threshold) * 1.0
@@ -122,7 +122,36 @@ def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
             fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
                                   (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
 
-        return {"threshold": threshold, "performance": computeAllPerformanceMetrics(), "fairness": fairness_metrics}
+        def computeRatesForGroup(group):
+            def getG():
+                return gmaj if group == 'Priveleged' else gmin
+
+            def computeGroupFrequency():
+                g = getG()
+                return sum(g)/(sum(g) + sum(g == 0)) * 100.0
+
+            def computeGroupAR():
+                g = getG()
+                return sum(rf.predict(X).ravel()[g == 1])/sum(g) * 100.0
+
+            series = [{'name': 'Group Frequency %', 'value': computeGroupFrequency()},
+                      {'name': 'Group Acceptance Rate %', 'value': computeGroupAR()}]
+            series = sorted(series, key=lambda k: k['value'])
+            series[1]['value'] = series[1]['value'] - series[0]['value']
+
+            return {'name': group, 'series': series}
+
+        # TODO: this doesn't depend on threshold so shouldn't be here
+        # Need to check with Adriano if this is the case
+        df_plot = [computeRatesForGroup(group)
+                   for group in ['Priveleged', 'Unpriveleged']]
+
+        return {
+            "threshold": threshold,
+            "performance": computeAllPerformanceMetrics(),
+            "fairness": fairness_metrics,
+            "dfPlot": df_plot
+        }
 
     return list(map(computeMetricsForThreshold, [i/100 for i in list(range(0, 102, 2))]))
 
@@ -184,7 +213,7 @@ def getStuffNeededForMetrics(modelAndData, selectedFeatures):
     gmaj = X[selectedFeatures["gmaj"]].values
     model = modelAndData["model"]
     ypred_prob = model.predict_proba(X).ravel()[1::2]
-    return (y, gmin, gmaj, ypred_prob, selectedFeatures)
+    return (y, gmin, gmaj, ypred_prob, selectedFeatures, model, X)
 
 
 @app.route("/api/metrics", methods=["POST"])

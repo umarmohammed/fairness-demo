@@ -2,6 +2,7 @@ export interface Metrics {
   threshold: number;
   performance: { [key: string]: PerformanceMetric[] };
   fairness: FairnessMetric[];
+  dfPlot: any[];
 }
 
 export interface FairModelMetrics {
