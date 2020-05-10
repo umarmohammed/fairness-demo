@@ -6,6 +6,9 @@ import { ComboBarLabelComponent } from './combo-chart/combo-bar-label.component'
 import { CustomBarVerticalComponent } from './custom-vertical-bar/custom-bar-vertical.component';
 import { CustomSeriesVerticalComponent } from './custom-vertical-bar/custom-series-vertical.component';
 import { CustomBarVertical2DComponent } from './custom-bar-vertical-2d/custom-bar-vertical-2d.component';
+import { CustomBubbleSeriesComponent } from './custom-bubble-chart/custom-bubble-series.component';
+import { CustomBubbleChartComponent } from './custom-bubble-chart/custom-bubble-chart.component';
+import { BubbleCircleComponent } from './custom-bubble-chart/bubble-circle.component';
 
 @NgModule({
   imports: [NgxChartsModule],
@@ -16,12 +19,16 @@ import { CustomBarVertical2DComponent } from './custom-bar-vertical-2d/custom-ba
     CustomBarVerticalComponent,
     CustomSeriesVerticalComponent,
     CustomBarVertical2DComponent,
+    CustomBubbleSeriesComponent,
+    CustomBubbleChartComponent,
+    BubbleCircleComponent,
   ],
   exports: [
     NgxChartsModule,
     ComboChartComponent,
     CustomBarVerticalComponent,
     CustomBarVertical2DComponent,
+    CustomBubbleChartComponent,
   ],
 })
 export class ChartsModule {}

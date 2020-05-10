@@ -32,7 +32,7 @@ import { MatSelectChange } from '@angular/material/select';
       </div>
     </div>
     <div class="performance-charts">
-      <ngx-charts-bubble-chart
+      <ngx-charts-custom-bubble-chart
         [scheme]="colorScheme"
         [results]="metrics.data"
         [xAxis]="true"
@@ -47,7 +47,7 @@ import { MatSelectChange } from '@angular/material/select';
         [legend]="true"
         [minRadius]="3"
       >
-      </ngx-charts-bubble-chart>
+      </ngx-charts-custom-bubble-chart>
     </div>
   `,
   styles: [

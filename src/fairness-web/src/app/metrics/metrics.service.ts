@@ -89,12 +89,14 @@ export class MetricsService {
             {
               name: 'Fair',
               series:
-                metrics && this.metricsToSeries(metrics, foo.x, foo.y, true),
+                metrics &&
+                this.metricsToSeries(metrics, foo.x, foo.y, true, 'Fair'),
             },
             {
               name: 'Unfair',
               series:
-                metrics && this.metricsToSeries(metrics, foo.x, foo.y, false),
+                metrics &&
+                this.metricsToSeries(metrics, foo.x, foo.y, false, 'Unfair'),
             },
           ],
         }))
@@ -130,7 +132,8 @@ export class MetricsService {
     metrics: Metrics[],
     fairnessMetric: string,
     performanceMetric: string,
-    fair: boolean
+    fair: boolean,
+    seriesName: string
   ) {
     return this.metricsByFairness(metrics, fairnessMetric, fair).map(
       (metric) => ({
@@ -139,6 +142,7 @@ export class MetricsService {
         y: metric.performance[performanceMetric].find((f) => f.name === 'all')
           .value,
         r: metric.threshold,
+        seriesName,
       })
     );
   }
