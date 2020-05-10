@@ -14,31 +14,28 @@ import { select } from 'd3-selection';
 @Component({
   selector: 'g[fai-bubble-circle]',
   template: `
-    <svg:g class="bubble-circle">
-      <svg:g
-        ngx-charts-circle
-        class="circle"
-        [cx]="0"
-        [cy]="0"
-        [r]="circle.radius"
-        [fill]="circle.color"
-        [style.opacity]="circle.opacity"
-        [class.active]="circle.isActive"
-        [pointerEvents]="'all'"
-        [data]="circle.value"
-        [classNames]="circle.classNames"
-        (select)="onClick(circle.data)"
-        (activate)="activateCircle(circle)"
-        (deactivate)="deactivateCircle(circle)"
-        ngx-tooltip
-        [tooltipDisabled]="tooltipDisabled"
-        [tooltipPlacement]="'top'"
-        [tooltipType]="'tooltip'"
-        [tooltipTitle]="tooltipTemplate ? undefined : getTooltipText(circle)"
-        [tooltipTemplate]="tooltipTemplate"
-        [tooltipContext]="circle.data"
-      />
-    </svg:g>
+    <svg:g
+      ngx-charts-circle
+      class="circle bubble-circle"
+      [cx]="0"
+      [cy]="0"
+      [r]="circle.radius"
+      [style.opacity]="circle.opacity"
+      [class.active]="circle.isActive"
+      [pointerEvents]="'all'"
+      [data]="circle.value"
+      [classNames]="circle.classNames"
+      (select)="onClick(circle.data)"
+      (activate)="activateCircle(circle)"
+      (deactivate)="deactivateCircle(circle)"
+      ngx-tooltip
+      [tooltipDisabled]="tooltipDisabled"
+      [tooltipPlacement]="'top'"
+      [tooltipType]="'tooltip'"
+      [tooltipTitle]="tooltipTemplate ? undefined : getTooltipText(circle)"
+      [tooltipTemplate]="tooltipTemplate"
+      [tooltipContext]="circle.data"
+    />
   `,
 })
 export class BubbleCircleComponent implements OnChanges {
@@ -65,7 +62,11 @@ export class BubbleCircleComponent implements OnChanges {
   update() {
     const node = select(this.element).select('.bubble-circle');
 
-    node.transition().duration(500).attr('transform', this.circle.transform);
+    node
+      .transition()
+      .duration(500)
+      .attr('transform', this.circle.transform)
+      .attr('fill', this.circle.color);
   }
 
   onClick(data): void {
