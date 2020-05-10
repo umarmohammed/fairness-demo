@@ -69,7 +69,6 @@ export class CustomBubbleSeriesComponent implements OnChanges {
 
   update(): void {
     this.circles = this.getCircles();
-    console.log(this.circles);
   }
 
   getCircles(): any[] {
