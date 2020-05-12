@@ -11,8 +11,8 @@ import { MatRadioChange } from '@angular/material/radio';
       [value]="performanceType$ | async"
       (change)="onValueChange($event)"
     >
-      <mat-radio-button value="single">Single</mat-radio-button>
-      <mat-radio-button value="multi">Multi</mat-radio-button>
+      <mat-radio-button value="single">All</mat-radio-button>
+      <mat-radio-button value="multi">Group</mat-radio-button>
     </mat-radio-group>
     <p class="title">Performance</p>
     <div class="performance-charts">

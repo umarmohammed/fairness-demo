@@ -13,7 +13,7 @@ import { Metric } from './metrics';
         #rla="routerLinkActive"
         [active]="rla.isActive"
       >
-        Foo
+        Metrics
       </a>
       <a
         mat-tab-link
@@ -22,7 +22,7 @@ import { Metric } from './metrics';
         #rla1="routerLinkActive"
         [active]="rla1.isActive"
       >
-        Trade Offs
+        Trade-offs
       </a>
     </nav>
     <div style="height: calc(100% - 49px)">

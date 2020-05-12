@@ -35,7 +35,7 @@ import { FixService } from './fix.service';
           [disabled]="!(selectedFeatures$ | async)"
           (click)="onFixClick()"
         >
-          fix
+          Fix
         </button>
         <fai-title class="title"></fai-title>
       </mat-toolbar-row>
