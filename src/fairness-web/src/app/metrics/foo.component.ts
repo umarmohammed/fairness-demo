@@ -20,17 +20,19 @@ import { Metric } from './metrics';
           type="single"
           class="performance"
         ></fai-performance-chart>
-        <div class="performance">
-          <ngx-charts-bar-vertical-stacked
-            [results]="dfplot$ | async"
-            [xAxis]="true"
-            [yAxis]="true"
-            [showYAxisLabel]="true"
-            yAxisLabel="%"
-            [legend]="true"
-            [yScaleMax]="100"
-          >
-          </ngx-charts-bar-vertical-stacked>
+        <div class="performance chart">
+          <p class="title">Outcomes</p>
+          <div style="height:100%;">
+            <ngx-charts-custom-bar-vertical-2d
+              [results]="dfplot$ | async"
+              [yScaleMax]="100"
+              [yAxis]="true"
+              [showDataLabel]="true"
+              [xAxis]="true"
+              [legend]="true"
+              [roundEdges]="false"
+            ></ngx-charts-custom-bar-vertical-2d>
+          </div>
         </div>
       </div>
 

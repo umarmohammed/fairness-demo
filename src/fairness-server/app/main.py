@@ -134,10 +134,8 @@ def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
                 g = getG()
                 return sum(ypred_class[g == 1])/sum(g) * 100.0
 
-            series = [{'name': 'Group Frequency %', 'value': computeGroupFrequency()},
-                      {'name': 'Group Acceptance Rate %', 'value': computeGroupAR()}]
-            series = sorted(series, key=lambda k: k['value'])
-            series[1]['value'] = series[1]['value'] - series[0]['value']
+            series = [{'name': 'Frequency %', 'value': computeGroupFrequency()},
+                      {'name': 'Acceptance Rate %', 'value': computeGroupAR()}]
 
             return {'name': group, 'series': series}
 
@@ -201,10 +199,8 @@ def computeFairMetrics(y, gmin, gmaj, ypred_prob, ypred_class, selectedFeatures)
             g = getG()
             return sum(ypred_class[g == 1])/sum(g) * 100.0
 
-        series = [{'name': 'Group Frequency %', 'value': computeGroupFrequency()},
-                  {'name': 'Group Acceptance Rate %', 'value': computeGroupAR()}]
-        series = sorted(series, key=lambda k: k['value'])
-        series[1]['value'] = series[1]['value'] - series[0]['value']
+        series = [{'name': 'Frequency %', 'value': computeGroupFrequency()},
+                  {'name': 'Acceptance Rate %', 'value': computeGroupAR()}]
 
         return {'name': group, 'series': series}
 
