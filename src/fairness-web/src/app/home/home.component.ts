@@ -5,18 +5,29 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'fai-home',
   template: `
-    <div>
-      <button (click)="fileInput.click()" color="primary" mat-stroked-button>
-        Upload Model
-      </button>
-      <input
-        hidden
-        type="file"
-        #fileInput
-        type="file"
-        (change)="fileUploaded(fileInput.files[0])"
-        accept=".joblib"
-      />
+    <div class="container">
+      <img class="logo" src="/assets/logo.PNG" />
+      <div class="text-container">
+        <h1 class="title">Fairness Demo</h1>
+        <hr class="divider" />
+        <h6 class="sub-title">Upload a model to get started</h6>
+        <button
+          (click)="fileInput.click()"
+          color="primary"
+          mat-stroked-button
+          class="upload-button"
+        >
+          Upload
+        </button>
+        <input
+          hidden
+          type="file"
+          #fileInput
+          type="file"
+          (change)="fileUploaded(fileInput.files[0])"
+          accept=".joblib"
+        />
+      </div>
     </div>
   `,
   styles: [
@@ -26,6 +37,44 @@ import { Router } from '@angular/router';
         align-items: center;
         justify-content: center;
         height: 100%;
+      }
+
+      .title {
+        width: 100%;
+        text-align: center;
+      }
+
+      .text-container {
+        width: 215px;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+      }
+
+      .logo {
+        width: 50%;
+        margin: auto;
+      }
+
+      .sub-title {
+        line-height: 1.7;
+        font-size: 1rem;
+        font-weight: 300;
+        width: 100%;
+        text-align: center;
+      }
+
+      .divider {
+        width: 100%;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .upload-button {
+        margin: auto;
       }
     `,
   ],
