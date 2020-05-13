@@ -52,7 +52,6 @@ import { Router } from '@angular/router';
       }
 
       .logo {
-        width: 50%;
         margin: auto;
       }
 
