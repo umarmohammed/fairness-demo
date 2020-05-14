@@ -243,8 +243,8 @@ def getMetrics():
 
 
 def fixModel(y, gmin, gmaj, ypred_prob, rf):
-    opt_fair_metric = TwoSDRule  # fairness metric
-    goal = 0.000  # best possible value
+    opt_fair_metric = AvgOddsDiff  # fairness metric
+    goal = 0.0275  # best possible value
 
     def fair_opt(x, f=opt_fair_metric, best_f=goal, g_maj=gmaj, g_min=gmin, obs_values=y, model_pred=ypred_prob):
         # params
