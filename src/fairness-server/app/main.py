@@ -22,14 +22,14 @@ def CohenD(yobs, ypred, gmaj, gmin):
     POOL_STD = STD_maj * (sum(gmaj == 1)/(sum(gmin == 1) + sum(gmaj == 1))) + \
         STD_min * (sum(gmin == 1)/(sum(gmin == 1) + sum(gmaj == 1)))
 
-    return 0 if POOL_STD == 0 else StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
+    return None if POOL_STD == 0 else StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
 
 
 def DispImpact(yobs, ypred, gmaj, gmin):
     # Disparate Impact (a.k.a. Adverse Impact Ratio)
     SR_min = ypred[gmin == 1].mean()  # success rate minority
     SR_maj = ypred[gmaj == 1].mean()  # success rate majority
-    return 0 if SR_maj == 0 else SR_min/SR_maj
+    return None if SR_maj == 0 else SR_min/SR_maj
 
 
 def StatParity(yobs, ypred, gmaj, gmin):
@@ -46,7 +46,7 @@ def TwoSDRule(yobs, ypred, gmaj, gmin):
     SR_T = ypred.mean()  # success rate total
     P_min = (gmin == 1).mean()  # minority proportion
     N = len(ypred)
-    return 0 if np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min))) == 0 else (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
+    return None if np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min))) == 0 else (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
 
 
 def EqualOppDiff(yobs, ypred, gmaj, gmin):

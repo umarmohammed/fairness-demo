@@ -4,16 +4,18 @@ import { ThresholdService } from './threshold.service';
 @Component({
   selector: 'fai-threshold-slider',
   template: `
-    <p>Threshold</p>
-    <mat-slider
-      [max]="1"
-      [min]="0"
-      [step]="0.02"
-      [value]="threshold$ | async"
-      (input)="updateThreshold($event.value)"
-      class="opacity-slider"
-    ></mat-slider>
-    <p>{{ threshold$ | async | number: '1.2-2' }}</p>
+    <ng-container *ngIf="slider$ | async as slider">
+      <p>Threshold</p>
+      <mat-slider
+        [max]="slider.range[1]"
+        [min]="slider.range[0]"
+        [step]="0.02"
+        [value]="slider.threshold"
+        (input)="updateThreshold($event.value)"
+        class="opacity-slider"
+      ></mat-slider>
+      <p>{{ slider.threshold | number: '1.2-2' }}</p>
+    </ng-container>
   `,
   styles: [
     `
@@ -35,7 +37,7 @@ import { ThresholdService } from './threshold.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThresholdSliderComponent {
-  threshold$ = this.thresholdService.threshold$;
+  slider$ = this.thresholdService.slider$;
 
   constructor(private thresholdService: ThresholdService) {}
 

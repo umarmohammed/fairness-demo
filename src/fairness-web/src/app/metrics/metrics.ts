@@ -5,6 +5,10 @@ export interface Metrics {
   dfPlot: any[];
 }
 
+export function validMetric(metrics: Metrics) {
+  return !metrics.fairness.find((m) => m.value === null);
+}
+
 export interface FairModelMetrics {
   performance: { [key: string]: PerformanceMetric[] };
   fairness: FairnessMetric[];

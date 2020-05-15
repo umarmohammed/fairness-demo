@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
-import { switchMap, map, tap, catchError, shareReplay } from 'rxjs/operators';
+import {
+  switchMap,
+  map,
+  tap,
+  catchError,
+  shareReplay,
+  filter,
+} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {
   Metrics,
   fairnessMetricsForDisplay,
   PerformanceMetric,
+  validMetric,
 } from './metrics';
 import { ThresholdService } from './threshold.service';
 import { environment } from 'src/environments/environment';
@@ -28,11 +36,19 @@ export class MetricsService {
     switchMap((model) =>
       this.http.post<Metrics[]>(this.url, model).pipe(
         map((metrics) =>
-          metrics.map((metric) => ({
+          metrics.filter(validMetric).map((metric) => ({
             ...metric,
             fairness: fairnessMetricsForDisplay(metric.fairness),
           }))
         ),
+        tap((metrics) => {
+          const thresholds = metrics.map((m) => m.threshold);
+          const range: [number, number] = [
+            Math.min(...thresholds),
+            Math.max(...thresholds),
+          ];
+          this.thresholdService.setRange(range);
+        }),
         catchError(() => {
           this.errorSubject.next(true);
           return of(null as Metrics[]);
@@ -49,9 +65,11 @@ export class MetricsService {
         map(
           (threshold) =>
             metrics && metrics.find((metric) => metric.threshold === threshold)
-        )
+        ),
+        filter((metrics) => !!metrics)
       )
-    )
+    ),
+    shareReplay()
   );
 
   performanceMetrics$ = this.metricsForThreshold$.pipe(
