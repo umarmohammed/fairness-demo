@@ -98,8 +98,8 @@ export class MetricsService {
         map(([x, y]) => ({
           xs: metrics && metrics[0].fairness.map((f) => f.name),
           ys: metrics && Object.keys(metrics[0].performance),
-          x: x || (metrics && metrics[0].fairness[0].name),
-          y: y || (metrics && Object.keys(metrics[0].performance))[0],
+          x: x || 'DispImpact',
+          y: y || 'Accuracy',
         })),
         map((foo) => ({
           ...foo,
