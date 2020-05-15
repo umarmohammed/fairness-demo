@@ -21,13 +21,15 @@ export class FairModelService {
 
   fairModelMetrics$ = this.fixService.fixAction$.pipe(
     withLatestFrom(this.featureService.featuresToUpload$),
+    tap(([action]) => (action === 'fix' ? this.fixService.fixing() : 0)),
     switchMap(([action, features]) =>
       action === 'fix'
         ? this.http.post<FairModelMetrics>(this.url, features).pipe(
             map((metrics) => ({
               ...metrics,
               fairness: metrics.fairness.map(fairnessMetricForDisplay),
-            }))
+            })),
+            tap(() => this.fixService.fixed())
           )
         : of<FairModelMetrics>(null)
     ),

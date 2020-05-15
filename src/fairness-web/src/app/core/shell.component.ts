@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FeaturesService } from './features.service';
 import { ShellService } from './shell.service';
 import { SideNavService } from './side-nav.service';
@@ -33,10 +33,16 @@ import { FixService } from './fix.service';
           color="primary"
           mat-flat-button
           [disabled]="!(selectedFeatures$ | async)"
+          [class.hidden]="fixing$ | async"
           (click)="onFixClick()"
         >
           Fix
         </button>
+        <mat-spinner
+          class="m-l-50"
+          *ngIf="fixing$ | async"
+          [diameter]="30"
+        ></mat-spinner>
         <fai-title class="title"></fai-title>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -75,12 +81,17 @@ import { FixService } from './fix.service';
         text-overflow: ellipsis;
         display: flex;
       }
+      .hidden {
+        display: none;
+      }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShellComponent {
   selectedFeatures$ = this.featuresService.selectedFeatures$;
   showMenu$ = this.shellService.showMenu$;
+  fixing$ = this.fixService.fixing$;
 
   constructor(
     private featuresService: FeaturesService,
