@@ -71,6 +71,26 @@ export class FairModelService {
     map((fairModel) => fairModel && fairModel.fairness)
   );
 
+  fairModelCompareFairness$ = combineLatest([
+    this.metricService.fairnessMetrics$,
+    this.fairModelFairness$,
+  ]).pipe(
+    map(
+      ([origFairness, fairness]) =>
+        fairness &&
+        fairness.map((f) => ({
+          ...f,
+          values: [
+            { name: 'fair', value: f.value },
+            {
+              name: 'orig',
+              value: origFairness.find((o) => o.name === f.name).value,
+            },
+          ],
+        }))
+    )
+  );
+
   fairDfplot$ = this.fairModelMetrics$.pipe(
     map((metrics) => metrics && metrics.dfPlot)
   );

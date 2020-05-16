@@ -37,14 +37,14 @@ import { Metric } from './metrics';
     <div class="chart fairness">
       <p class="title">Fairness</p>
       <div class="performance-charts">
-        <fai-fairness-chart
+        <fai-fair-model-compare-fairness
           *ngFor="
             let metric of fairModelFairness$ | async;
             trackBy: trackByFunction
           "
           [metric]="metric"
           class="chart-wrapper"
-        ></fai-fairness-chart>
+        ></fai-fair-model-compare-fairness>
       </div>
       <div>
         <fai-threshold-slider></fai-threshold-slider>
@@ -123,7 +123,7 @@ import { Metric } from './metrics';
 export class FairModelCompareComponent {
   fairModelComparePerformance$ = this.fairModelService
     .fairModelComparePerformance$;
-  fairModelFairness$ = this.fairModelService.fairModelFairness$;
+  fairModelFairness$ = this.fairModelService.fairModelCompareFairness$;
   dfplot$ = this.fairModelService.fairModelCompareAcceptanceRate$;
 
   constructor(private fairModelService: FairModelService) {}
