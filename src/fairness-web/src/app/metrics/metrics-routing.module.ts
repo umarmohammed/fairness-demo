@@ -6,6 +6,7 @@ import { DataMetricsComponent } from './data-metrics.component';
 import { FooComponent } from './foo.component';
 import { TradeOffComponent } from './trade-off.component';
 import { FairModelComponent } from './fair-model.component';
+import { FairModelMetricsComponent } from './fair-model-metrics.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,14 @@ const routes: Routes = [
         ],
       },
       { path: 'data', component: DataMetricsComponent },
-      { path: 'fair-model', component: FairModelComponent },
+      {
+        path: 'fair-model',
+        component: FairModelComponent,
+        children: [
+          { path: 'metrics', component: FairModelMetricsComponent },
+          { path: '', redirectTo: 'metrics', pathMatch: 'full' },
+        ],
+      },
       { path: '', redirectTo: 'model', pathMatch: 'full' },
       { path: '**', redirectTo: 'model' },
     ],

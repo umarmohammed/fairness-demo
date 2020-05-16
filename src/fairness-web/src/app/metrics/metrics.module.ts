@@ -14,6 +14,7 @@ import { PerformanceChartComponent } from './performance-chart.component';
 import { FooComponent } from './foo.component';
 import { TradeOffComponent } from './trade-off.component';
 import { FairModelComponent } from './fair-model.component';
+import { FairModelMetricsComponent } from './fair-model-metrics.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, MetricsRoutingModule, ChartsModule],
@@ -29,6 +30,7 @@ import { FairModelComponent } from './fair-model.component';
     FooComponent,
     TradeOffComponent,
     FairModelComponent,
+    FairModelMetricsComponent,
   ],
 })
 export class MetricsModule {}
