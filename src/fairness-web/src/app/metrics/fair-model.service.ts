@@ -56,12 +56,12 @@ export class FairModelService {
       fairPerformance.values.map((f: { name: string; value: number }) => ({
         name: f.name,
         series: [
+          { name: 'fair', value: f.value },
           {
             name: 'orig',
             value: origMetrics.performance[f.name].find((m) => m.name === 'all')
               .value,
           },
-          { name: 'fair', value: f.value },
         ],
       }))
     )
@@ -104,16 +104,16 @@ export class FairModelService {
         name: o.name,
         series: [
           {
-            name: 'orig',
-            value: o.series.find((s) => s.name === 'Acceptance Rate %').value,
-          },
-          {
             name: 'fair',
             value:
               fairDf &&
               fairDf
                 .find((fair) => fair.name === o.name)
                 .series.find((s) => s.name === 'Acceptance Rate %').value,
+          },
+          {
+            name: 'orig',
+            value: o.series.find((s) => s.name === 'Acceptance Rate %').value,
           },
         ],
       }))
