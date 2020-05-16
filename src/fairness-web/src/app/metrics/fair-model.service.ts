@@ -97,8 +97,7 @@ export class FairModelService {
           },
         ],
       }))
-    ),
-    tap(console.log)
+    )
   );
 
   constructor(

@@ -8,7 +8,7 @@ export class FixService {
   fixAction$ = this.fixActionSubject.asObservable();
 
   private fixingSubject = new BehaviorSubject<boolean>(false);
-  fixing$ = this.fixingSubject.asObservable().pipe(tap(console.log));
+  fixing$ = this.fixingSubject.asObservable();
 
   fix() {
     this.fixActionSubject.next('fix');
