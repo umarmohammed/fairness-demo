@@ -7,6 +7,7 @@ import { FooComponent } from './foo.component';
 import { TradeOffComponent } from './trade-off.component';
 import { FairModelComponent } from './fair-model.component';
 import { FairModelMetricsComponent } from './fair-model-metrics.component';
+import { FairModelCompareComponent } from './fair-model-compare.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
         component: FairModelComponent,
         children: [
           { path: 'metrics', component: FairModelMetricsComponent },
+          { path: 'compare', component: FairModelCompareComponent },
           { path: '', redirectTo: 'metrics', pathMatch: 'full' },
         ],
       },
