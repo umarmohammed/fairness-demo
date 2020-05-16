@@ -48,12 +48,19 @@ export class FairModelService {
     )
   );
 
+  private fairModelPerformanceSingle$ = this.fairModelMetrics$.pipe(
+    map(
+      (metrics) =>
+        metrics && performanceToChartSeries(metrics.performance, 'single')
+    )
+  );
+
   fairModelComparePerformance$ = combineLatest([
-    this.fairModelPerformance$,
+    this.fairModelPerformanceSingle$,
     this.metricService.metricsForThreshold$,
   ]).pipe(
     map(([fairPerformance, origMetrics]: [any, Metrics]) =>
-      fairPerformance.values.map((f: { name: string; value: number }) => ({
+      fairPerformance.map((f: { name: string; value: number }) => ({
         name: f.name,
         series: [
           { name: 'fair', value: f.value },
