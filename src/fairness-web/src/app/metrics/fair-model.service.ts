@@ -7,12 +7,12 @@ import {
   withLatestFrom,
   map,
 } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, combineLatest } from 'rxjs';
 import { FeaturesService } from '../core/features.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { FairModelMetrics, fairnessMetricForDisplay } from './metrics';
-import { performanceToChartSeries } from './metrics.service';
+import { FairModelMetrics, fairnessMetricForDisplay, Metrics } from './metrics';
+import { performanceToChartSeries, MetricsService } from './metrics.service';
 import { PerformanceService } from './performance.service';
 
 @Injectable({ providedIn: 'root' })
@@ -48,9 +48,27 @@ export class FairModelService {
     )
   );
 
+  fairModelComparePerformance$ = combineLatest([
+    this.fairModelPerformance$,
+    this.metricService.metricsForThreshold$,
+  ]).pipe(
+    map(([fairPerformance, origMetrics]: [any, Metrics]) =>
+      fairPerformance.values.map((f: { name: string; value: number }) => ({
+        name: f.name,
+        series: [
+          {
+            name: 'orig',
+            value: origMetrics.performance[f.name].find((m) => m.name === 'all')
+              .value,
+          },
+          { name: 'fair', value: f.value },
+        ],
+      }))
+    )
+  );
+
   fairModelFairness$ = this.fairModelMetrics$.pipe(
-    map((fairModel) => fairModel && fairModel.fairness),
-    tap(console.log)
+    map((fairModel) => fairModel && fairModel.fairness)
   );
 
   fairDfplot$ = this.fairModelMetrics$.pipe(
@@ -61,6 +79,7 @@ export class FairModelService {
     private fixService: FixService,
     private featureService: FeaturesService,
     private http: HttpClient,
-    private performanceService: PerformanceService
+    private performanceService: PerformanceService,
+    private metricService: MetricsService
   ) {}
 }

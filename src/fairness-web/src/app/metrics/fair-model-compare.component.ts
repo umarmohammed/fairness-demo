@@ -6,12 +6,18 @@ import { Metric } from './metrics';
   selector: 'fai-fair-model-compare',
   template: `<div class="metrics">
     <div class="chart-row">
-      <fai-performance-chart
-        *ngIf="fairModelPerformance$ | async as metrics"
-        [metrics]="metrics"
-        type="single"
-        class="performance"
-      ></fai-performance-chart>
+      <div class="performance">
+        <ngx-charts-custom-bar-vertical-2d
+          [results]="fairModelComparePerformance$ | async"
+          [yScaleMax]="1"
+          [yAxis]="true"
+          [showDataLabel]="true"
+          [xAxis]="true"
+          [legend]="true"
+          [roundEdges]="false"
+        >
+        </ngx-charts-custom-bar-vertical-2d>
+      </div>
       <div class="performance chart">
         <p class="title">Outcomes</p>
         <div style="height:100%;">
@@ -39,6 +45,9 @@ import { Metric } from './metrics';
           [metric]="metric"
           class="chart-wrapper"
         ></fai-fairness-chart>
+      </div>
+      <div>
+        <fai-threshold-slider></fai-threshold-slider>
       </div>
     </div>
   </div>`,
@@ -112,7 +121,8 @@ import { Metric } from './metrics';
   ],
 })
 export class FairModelCompareComponent {
-  fairModelPerformance$ = this.fairModelService.fairModelPerformance$;
+  fairModelComparePerformance$ = this.fairModelService
+    .fairModelComparePerformance$;
   fairModelFairness$ = this.fairModelService.fairModelFairness$;
   dfplot$ = this.fairModelService.fairDfplot$;
 
