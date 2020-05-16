@@ -19,7 +19,7 @@ import { Metric } from './metrics';
         </ngx-charts-custom-bar-vertical-2d>
       </div>
       <div class="performance chart">
-        <p class="title">Outcomes</p>
+        <p class="title">Acceptance Rate %</p>
         <div style="height:100%;">
           <ngx-charts-custom-bar-vertical-2d
             [results]="dfplot$ | async"
@@ -124,7 +124,7 @@ export class FairModelCompareComponent {
   fairModelComparePerformance$ = this.fairModelService
     .fairModelComparePerformance$;
   fairModelFairness$ = this.fairModelService.fairModelFairness$;
-  dfplot$ = this.fairModelService.fairDfplot$;
+  dfplot$ = this.fairModelService.fairModelCompareAcceptanceRate$;
 
   constructor(private fairModelService: FairModelService) {}
 

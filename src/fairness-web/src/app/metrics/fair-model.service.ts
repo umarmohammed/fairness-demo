@@ -75,6 +75,32 @@ export class FairModelService {
     map((metrics) => metrics && metrics.dfPlot)
   );
 
+  fairModelCompareAcceptanceRate$ = combineLatest([
+    this.metricService.dfplot$,
+    this.fairDfplot$,
+  ]).pipe(
+    map(([origDf, fairDf]) =>
+      origDf.map((o) => ({
+        name: o.name,
+        series: [
+          {
+            name: 'orig',
+            value: o.series.find((s) => s.name === 'Acceptance Rate %').value,
+          },
+          {
+            name: 'fair',
+            value:
+              fairDf &&
+              fairDf
+                .find((fair) => fair.name === o.name)
+                .series.find((s) => s.name === 'Acceptance Rate %').value,
+          },
+        ],
+      }))
+    ),
+    tap(console.log)
+  );
+
   constructor(
     private fixService: FixService,
     private featureService: FeaturesService,
