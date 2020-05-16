@@ -298,11 +298,9 @@ export class ComboChartComponent extends BaseChartComponent {
         scale = scale.nice();
       }
     } else if (this.scaleType === 'ordinal') {
+      const bandwidthCorrect = this.results.length > 1 ? 0 : this.bandwidth / 2;
       scale = scalePoint()
-        .range([
-          offset + this.bandwidth / 2,
-          width - offset - this.bandwidth / 2,
-        ])
+        .range([offset + bandwidthCorrect, width - offset - bandwidthCorrect])
         .domain(domain);
     }
 
