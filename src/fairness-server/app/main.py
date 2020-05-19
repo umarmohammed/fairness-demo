@@ -219,7 +219,7 @@ def computeFairMetrics(y, gmin, gmaj, ypred_prob, ypred_class, selectedFeatures)
 def features():
     file = request.files['file']
     X = load(file.stream)["X"]
-    return jsonify(X.columns.tolist())
+    return  {"features": X.columns.tolist(), "metrics": list(fair_metrics.keys())}
 
 
 def getStuffNeededForMetrics(modelAndData, selectedFeatures):

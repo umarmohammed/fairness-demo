@@ -13,20 +13,23 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SelectedFeature } from '../metrics/selected-feature';
 import { environment } from 'src/environments/environment';
 import { FixService } from './fix.service';
+import { FeaturesResponse } from './features-response';
 
 @Injectable({ providedIn: 'root' })
 export class FeaturesService {
   private url = `${environment.baseUrl}api/features`;
 
-  features$ = this.modelService.model$.pipe(
+  options$ = this.modelService.model$.pipe(
     tap(() => {
       this.featuresLoadingSubject.next(true);
       this.clearSelectedFeatures();
     }),
-    switchMap((model) => this.http.post<string[]>(this.url, model)),
+    switchMap((model) => this.http.post<FeaturesResponse>(this.url, model)),
     tap(() => this.featuresLoadingSubject.next(false)),
     shareReplay()
   );
+
+  features$ = this.options$.pipe(map((options) => options.features));
 
   private featuresLoadingSubject = new BehaviorSubject<boolean>(false);
   featuresLoading$ = this.featuresLoadingSubject.asObservable();
