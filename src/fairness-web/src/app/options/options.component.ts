@@ -12,20 +12,34 @@ import { FeaturesService } from '../core/features.service';
           [features]="features$ | async"
           label="Unpriveleged Group"
           type="gmin"
-          (selectionChange)="onSelectionChange($event)"
+          (selectionChange)="onSelectedFeatureChanged($event)"
           [selectedFeatures]="selectedFeatures$ | async"
         ></fai-select-protected-feaure>
         <fai-select-protected-feaure
           [features]="features$ | async"
           label="Priveleged Group"
           type="gmaj"
-          (selectionChange)="onSelectionChange($event)"
+          (selectionChange)="onSelectedFeatureChanged($event)"
           [selectedFeatures]="selectedFeatures$ | async"
         ></fai-select-protected-feaure>
       </div>
       <div class="container">
         <p class="header">Model Fix Options</p>
-        <div>Options to with fixing the model will go here</div>
+        <mat-form-field>
+          <mat-label>Target Metric</mat-label>
+          <mat-select>
+            <mat-option
+              *ngFor="let metric of targetMetrics$ | async"
+              [value]="metric"
+            >
+              {{ metric }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Goal</mat-label>
+          <input matInput type="number" />
+        </mat-form-field>
       </div>
     </div>
     <mat-spinner
@@ -40,7 +54,8 @@ import { FeaturesService } from '../core/features.service';
         justify-items: center;
       }
       .container {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         border: 1px solid #f0f0f0;
         padding: 10px;
         border-radius: 5px;
@@ -66,10 +81,11 @@ export class OptionsComponent {
   featuresLoading$ = this.featuresService.featuresLoading$;
   features$ = this.featuresService.features$;
   selectedFeatures$ = this.featuresService.selectedFeatures$;
+  targetMetrics$ = this.featuresService.targetMetrics$;
 
   constructor(private featuresService: FeaturesService) {}
 
-  onSelectionChange(event: { type: string; value: string }) {
+  onSelectedFeatureChanged(event: { type: string; value: string }) {
     this.featuresService.updateSelectedFeature(event);
   }
 }

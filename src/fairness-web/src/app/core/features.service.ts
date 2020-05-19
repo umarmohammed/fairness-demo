@@ -8,6 +8,7 @@ import {
   filter,
   tap,
   withLatestFrom,
+  pluck,
 } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SelectedFeature } from '../metrics/selected-feature';
@@ -30,6 +31,8 @@ export class FeaturesService {
   );
 
   features$ = this.options$.pipe(map((options) => options.features));
+
+  targetMetrics$ = this.options$.pipe(pluck('metrics'));
 
   private featuresLoadingSubject = new BehaviorSubject<boolean>(false);
   featuresLoading$ = this.featuresLoadingSubject.asObservable();

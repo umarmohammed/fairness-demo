@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
 
 const matModules = [
   MatToolbarModule,
@@ -25,6 +26,7 @@ const matModules = [
   MatRadioModule,
   MatTabsModule,
   MatMenuModule,
+  MatInputModule,
 ];
 
 @NgModule({
