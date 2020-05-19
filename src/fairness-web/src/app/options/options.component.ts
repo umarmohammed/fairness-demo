@@ -42,7 +42,12 @@ import { MatSelectChange } from '@angular/material/select';
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Goal</mat-label>
-          <input matInput type="number" />
+          <input
+            [value]="goalValue$ | async"
+            (keyup)="onGoalValueChanged($event)"
+            matInput
+            type="number"
+          />
         </mat-form-field>
       </div>
     </div>
@@ -87,6 +92,7 @@ export class OptionsComponent {
   selectedFeatures$ = this.featuresService.selectedFeatures$;
   targetMetrics$ = this.featuresService.targetMetrics$;
   selectedFairnessMethod$ = this.featuresService.selectedFairnessMethod$;
+  goalValue$ = this.featuresService.goalValue$;
 
   constructor(private featuresService: FeaturesService) {}
 
@@ -97,6 +103,12 @@ export class OptionsComponent {
   onSelectedFairnessMethodChanged(matSelectChange: MatSelectChange) {
     this.featuresService.updateGoalOptions({
       fairnessMethod: matSelectChange.value,
+    });
+  }
+
+  onGoalValueChanged(event: KeyboardEvent) {
+    this.featuresService.updateGoalOptions({
+      goalValue: +event.key,
     });
   }
 }

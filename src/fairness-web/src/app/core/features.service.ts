@@ -55,6 +55,10 @@ export class FeaturesService {
     map((metric) => metric && metric.fairnessMethod)
   );
 
+  goalValue$ = this.selectedGoalMetricSubject.pipe(
+    map((metric) => metric && metric.goalValue)
+  );
+
   groupNames$ = combineLatest([this.gminSubject, this.gmajSubject]).pipe(
     filter(([gmin, gmaj]) => !!gmin && !!gmaj)
   );
