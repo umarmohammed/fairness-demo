@@ -99,6 +99,7 @@ export class ComboChartComponent extends BaseChartComponent {
   legendSpacing = 0;
   bandwidth;
   barPadding = 8;
+  xAxisTransform = ''; // I added this as a hack
 
   trackBy(index, item): string {
     return item.name;
@@ -146,6 +147,8 @@ export class ComboChartComponent extends BaseChartComponent {
     this.legendOptions = this.getLegendOptions();
     this.dims.xOffset = 46;
     this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
+
+    this.xAxisTransform = `translate(0,${10 - this.height / 2})`;
   }
 
   deactivateAll() {

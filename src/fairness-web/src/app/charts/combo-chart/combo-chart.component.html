@@ -18,6 +18,7 @@
       [labelText]="xAxisLabel"
       [tickFormatting]="xAxisTickFormatting"
       (dimensionsChanged)="updateXAxisHeight($event)"
+      [attr.transform]="xAxisTransform"
     ></svg:g>
     <svg:g
       ngx-charts-y-axis
