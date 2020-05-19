@@ -6,6 +6,7 @@ import {
   shareReplay,
   withLatestFrom,
   map,
+  catchError,
 } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { FeaturesService } from '../core/features.service';
@@ -29,7 +30,11 @@ export class FairModelService {
               ...metrics,
               fairness: metrics.fairness.map(fairnessMetricForDisplay),
             })),
-            tap(() => this.fixService.fixed())
+            tap(() => this.fixService.fixed()),
+            catchError(() => {
+              this.fixService.fixed();
+              return of(null);
+            })
           )
         : of<FairModelMetrics>(null)
     ),
