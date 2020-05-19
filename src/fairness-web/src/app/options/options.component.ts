@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FeaturesService } from '../core/features.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'fai-options',
@@ -27,7 +28,10 @@ import { FeaturesService } from '../core/features.service';
         <p class="header">Model Fix Options</p>
         <mat-form-field>
           <mat-label>Target Metric</mat-label>
-          <mat-select>
+          <mat-select
+            [value]="selectedFairnessMethod$ | async"
+            (selectionChange)="onSelectedFairnessMethodChanged($event)"
+          >
             <mat-option
               *ngFor="let metric of targetMetrics$ | async"
               [value]="metric"
@@ -82,10 +86,17 @@ export class OptionsComponent {
   features$ = this.featuresService.features$;
   selectedFeatures$ = this.featuresService.selectedFeatures$;
   targetMetrics$ = this.featuresService.targetMetrics$;
+  selectedFairnessMethod$ = this.featuresService.selectedFairnessMethod$;
 
   constructor(private featuresService: FeaturesService) {}
 
   onSelectedFeatureChanged(event: { type: string; value: string }) {
     this.featuresService.updateSelectedFeature(event);
+  }
+
+  onSelectedFairnessMethodChanged(matSelectChange: MatSelectChange) {
+    this.featuresService.updateGoalOptions({
+      fairnessMethod: matSelectChange.value,
+    });
   }
 }

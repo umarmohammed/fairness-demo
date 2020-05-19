@@ -19,6 +19,11 @@ export interface Metric {
   name: string;
 }
 
+export interface GoalMetric {
+  fairnessMethod: string;
+  goalValue: number;
+}
+
 export interface PerformanceMetric extends Metric {
   value: number;
   name: string;
