@@ -32,7 +32,7 @@ import { FixService } from './fix.service';
           class="m-l-50"
           color="primary"
           mat-flat-button
-          [disabled]="!(selectedFeatures$ | async)"
+          [disabled]="!(canFix$ | async)"
           [class.hidden]="fixing$ | async"
           (click)="onFixClick()"
         >
@@ -104,6 +104,7 @@ import { FixService } from './fix.service';
 })
 export class ShellComponent {
   selectedFeatures$ = this.featuresService.selectedFeatures$;
+  canFix$ = this.featuresService.canFix$;
   showMenu$ = this.shellService.showMenu$;
   fixing$ = this.fixService.fixing$;
 

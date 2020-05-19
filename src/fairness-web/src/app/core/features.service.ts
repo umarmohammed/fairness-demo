@@ -72,6 +72,17 @@ export class FeaturesService {
     map(this.createFeaturesToUpload)
   );
 
+  canFix$ = combineLatest([
+    this.selectedFeatures$,
+    this.selectedGoalMetric$,
+  ]).pipe(
+    tap(console.log),
+    map(
+      ([selectedFeature, selectedGoalMetric]) =>
+        !!(selectedFeature && selectedGoalMetric)
+    )
+  );
+
   constructor(
     private http: HttpClient,
     private modelService: ModelService,
@@ -106,7 +117,9 @@ export class FeaturesService {
   }
 
   private goalMetricValid(goalMetric: GoalMetric) {
+    console.log(goalMetric);
     return (
+      goalMetric &&
       goalMetric.fairnessMethod &&
       goalMetric.goalValue !== null &&
       goalMetric.goalValue !== undefined

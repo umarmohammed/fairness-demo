@@ -44,9 +44,10 @@ import { MatSelectChange } from '@angular/material/select';
           <mat-label>Goal</mat-label>
           <input
             [value]="goalValue$ | async"
-            (keyup)="onGoalValueChanged($event)"
+            (keyup)="onGoalValueChanged(goalInput)"
             matInput
             type="number"
+            #goalInput
           />
         </mat-form-field>
       </div>
@@ -106,9 +107,9 @@ export class OptionsComponent {
     });
   }
 
-  onGoalValueChanged(event: KeyboardEvent) {
+  onGoalValueChanged(input: HTMLInputElement) {
     this.featuresService.updateGoalOptions({
-      goalValue: +event.key,
+      goalValue: input.value ? +input.value : null,
     });
   }
 }
