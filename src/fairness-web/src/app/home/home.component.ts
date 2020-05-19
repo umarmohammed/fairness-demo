@@ -9,15 +9,13 @@ import { Router } from '@angular/router';
       <img class="logo" src="/assets/logo.PNG" />
       <div class="text-container">
         <h1 class="title">Fairness Demo</h1>
-        <hr class="divider" />
-        <h6 class="sub-title">Upload a model to get started</h6>
         <button
           (click)="fileInput.click()"
           color="primary"
           mat-stroked-button
           class="upload-button"
         >
-          Upload
+          Connect
         </button>
         <input
           hidden
