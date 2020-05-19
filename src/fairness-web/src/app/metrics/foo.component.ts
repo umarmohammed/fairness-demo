@@ -5,7 +5,11 @@ import { Metric } from './metrics';
 @Component({
   selector: 'fai-foo',
   template: `
-    <div *ngIf="error$ | async as error" class="error">
+    <div
+      *ngIf="error$ | async as error"
+      class="error"
+      [class.hidden]="loading$ | async"
+    >
       There was an error getting metrics for these features.
     </div>
     <div

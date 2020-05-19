@@ -28,7 +28,7 @@ export class MetricsService {
   private metricsLoadingSubject = new BehaviorSubject<boolean>(false);
   metricsLoading$ = this.metricsLoadingSubject.asObservable();
 
-  private errorSubject = new Subject<boolean>();
+  private errorSubject = new BehaviorSubject<boolean>(false);
   error$ = this.errorSubject.asObservable();
 
   metrics$ = this.featuresService.featuresToUpload$.pipe(
@@ -48,6 +48,7 @@ export class MetricsService {
             Math.max(...thresholds),
           ];
           this.thresholdService.setRange(range);
+          this.errorSubject.next(false);
         }),
         catchError(() => {
           this.errorSubject.next(true);
