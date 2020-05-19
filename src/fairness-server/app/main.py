@@ -219,7 +219,7 @@ def computeFairMetrics(y, gmin, gmaj, ypred_prob, ypred_class, selectedFeatures)
 def features():
     file = request.files['file']
     X = load(file.stream)["X"]
-    return  {"features": X.columns.tolist(), "metrics": list(fair_metrics.keys())}
+    return {"features": X.columns.tolist(), "metrics": list(fair_metrics.keys())}
 
 
 def getStuffNeededForMetrics(modelAndData, selectedFeatures):
@@ -242,9 +242,10 @@ def getMetrics():
     return jsonify(metrics)
 
 
-def fixModel(y, gmin, gmaj, ypred_prob, rf):
-    opt_fair_metric = AvgOddsDiff  # fairness metric
-    goal = 0.0275  # best possible value
+def fixModel(y, gmin, gmaj, ypred_prob, rf, goalMetrics):
+    # fairness metric
+    opt_fair_metric = fair_metrics[goalMetrics["fairnessMethod"]][0]
+    goal = goalMetrics["goalValue"]  # best possible value
 
     def fair_opt(x, f=opt_fair_metric, best_f=goal, g_maj=gmaj, g_min=gmin, obs_values=y, model_pred=ypred_prob):
         # params
@@ -285,15 +286,16 @@ def fixModel(y, gmin, gmaj, ypred_prob, rf):
     return rf
 
 
-def getStuffNeededForFix(modelAndData, selectedFeatures):
+def getStuffNeededForFix(modelAndData, fixMetrics):
     X = modelAndData["X"]
     y = modelAndData["y"]
+    selectedFeatures = fixMetrics["selectedFeatures"]
     gmin = X[selectedFeatures["gmin"]].values
     gmaj = X[selectedFeatures["gmaj"]].values
     model = modelAndData["model"]
     ypred_prob = model.predict_proba(X).ravel()[1::2]
 
-    fixModel(y, gmin, gmaj, ypred_prob, model)
+    fixModel(y, gmin, gmaj, ypred_prob, model, fixMetrics["goalMetrics"])
     ypred_prob = model.fair_predict_proba(X).ravel()[1::2]
     ypred_class = model.fair_predict(X).ravel()
 

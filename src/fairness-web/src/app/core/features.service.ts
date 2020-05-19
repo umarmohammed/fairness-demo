@@ -72,11 +72,21 @@ export class FeaturesService {
     map(this.createFeaturesToUpload)
   );
 
-  canFix$ = combineLatest([
+  private fixMetrics$ = combineLatest([
     this.selectedFeatures$,
     this.selectedGoalMetric$,
-  ]).pipe(
-    tap(console.log),
+  ]);
+
+  fixMetricsToUpload$ = this.fixMetrics$.pipe(
+    map(([selectedFeatures, goalMetrics]) => ({
+      selectedFeatures,
+      goalMetrics,
+    })),
+    withLatestFrom(this.modelService.model$),
+    map(this.createFeaturesToUpload)
+  );
+
+  canFix$ = this.fixMetrics$.pipe(
     map(
       ([selectedFeature, selectedGoalMetric]) =>
         !!(selectedFeature && selectedGoalMetric)
@@ -106,10 +116,7 @@ export class FeaturesService {
     this.gminSubject.next(null);
   }
 
-  private createFeaturesToUpload([selectedFeature, formData]: [
-    SelectedFeature,
-    FormData
-  ]) {
+  private createFeaturesToUpload([selectedFeature, formData]: [any, FormData]) {
     const out = new FormData();
     out.append('file', formData.get('file'));
     out.append('data', JSON.stringify(selectedFeature));

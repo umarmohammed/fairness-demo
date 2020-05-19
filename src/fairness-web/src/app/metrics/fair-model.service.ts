@@ -20,7 +20,7 @@ export class FairModelService {
   private url = `${environment.baseUrl}api/fix`;
 
   fairModelMetrics$ = this.fixService.fixAction$.pipe(
-    withLatestFrom(this.featureService.featuresToUpload$),
+    withLatestFrom(this.featureService.fixMetricsToUpload$),
     tap(([action]) => (action === 'fix' ? this.fixService.fixing() : 0)),
     switchMap(([action, features]) =>
       action === 'fix'
