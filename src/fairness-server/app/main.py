@@ -22,14 +22,14 @@ def CohenD(yobs, ypred, gmaj, gmin):
     POOL_STD = STD_maj * (sum(gmaj == 1)/(sum(gmin == 1) + sum(gmaj == 1))) + \
         STD_min * (sum(gmin == 1)/(sum(gmin == 1) + sum(gmaj == 1)))
 
-    return None if POOL_STD == 0 else StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
+    return StatParity(yobs, ypred, gmaj, gmin)/POOL_STD
 
 
 def DispImpact(yobs, ypred, gmaj, gmin):
     # Disparate Impact (a.k.a. Adverse Impact Ratio)
     SR_min = ypred[gmin == 1].mean()  # success rate minority
     SR_maj = ypred[gmaj == 1].mean()  # success rate majority
-    return None if SR_maj == 0 else SR_min/SR_maj
+    return SR_min/SR_maj
 
 
 def StatParity(yobs, ypred, gmaj, gmin):
@@ -46,7 +46,7 @@ def TwoSDRule(yobs, ypred, gmaj, gmin):
     SR_T = ypred.mean()  # success rate total
     P_min = (gmin == 1).mean()  # minority proportion
     N = len(ypred)
-    return None if np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min))) == 0 else (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
+    return (SR_min - SR_maj)/np.sqrt((SR_T * (1.0 - SR_T))/(N * P_min * (1 - P_min)))
 
 
 def EqualOppDiff(yobs, ypred, gmaj, gmin):
@@ -119,8 +119,10 @@ def computeMetrics(y, gmin, gmaj, ypred_prob, selectedFeatures):
 
         fairness_metrics = []
         for ff in fair_metrics.keys():
-            fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
-                                  (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
+            value = fair_metrics[ff][0](
+                y.values.ravel(), ypred_class, gmaj, gmin)
+            fairness_metrics += [{"name": ff, "value": None if np.isnan(
+                value) else value, "thresholds": fair_metrics[ff][1]}]
 
         def computeRatesForGroup(group):
             def getG():
@@ -209,8 +211,9 @@ def computeFairMetrics(y, gmin, gmaj, ypred_prob, ypred_class, selectedFeatures)
 
     fairness_metrics = []
     for ff in fair_metrics.keys():
-        fairness_metrics += [{"name": ff, "value": fair_metrics[ff][0]
-                              (y.values.ravel(), ypred_class, gmaj, gmin), "thresholds": fair_metrics[ff][1]}]
+        value = fair_metrics[ff][0](y.values.ravel(), ypred_class, gmaj, gmin)
+        fairness_metrics += [{"name": ff, "value": None if np.isnan(
+            value) else value, "thresholds": fair_metrics[ff][1]}]
 
     return {"performance": computeAllPerformanceMetrics(), "fairness": fairness_metrics, "dfPlot": df_plot}
 
