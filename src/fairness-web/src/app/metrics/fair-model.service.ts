@@ -33,7 +33,7 @@ export class FairModelService {
             tap(() => this.fixService.fixed()),
             catchError(() => {
               this.fixService.fixed();
-              return of(null);
+              return of(null as FairModelMetrics);
             })
           )
         : of<FairModelMetrics>(null)
@@ -80,7 +80,13 @@ export class FairModelService {
   );
 
   fairModelFairness$ = this.fairModelMetrics$.pipe(
-    map((fairModel) => fairModel && fairModel.fairness)
+    map(
+      (fairModel) =>
+        fairModel &&
+        fairModel.fairness.filter(
+          (f) => f.value !== null && f.value !== undefined
+        )
+    )
   );
 
   fairModelCompareFairness$ = combineLatest([
